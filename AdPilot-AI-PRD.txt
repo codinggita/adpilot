@@ -1,0 +1,2413 @@
+================================================================================
+PRODUCT REQUIREMENTS DOCUMENT (PRD)
+AdPilot AI — Google Ads Optimization SaaS for Small Brands
+================================================================================
+Version:        1.0.0
+Date:           April 22, 2026
+Stack:          MERN (MongoDB · Express.js · React · Node.js)
+Design System:  Supabase design system
+Status:         Ready for Engineering
+
+================================================================================
+TABLE OF CONTENTS
+================================================================================
+1.  Executive Summary
+2.  Problem Statement & Market Context
+3.  Product Vision & Goals
+4.  User Personas
+5.  Complete Tech Stack (All Free Tools)
+6.  System Architecture
+7.  Database Schema (MongoDB)
+8.  API Design (REST Endpoints)
+9.  Feature Specifications (All Modules)
+10. Frontend Architecture (React)
+11. Backend Architecture (Node/Express)
+12. Third-Party Integrations
+13. Authentication & Security
+14. AI Engine Design (Gemini)
+15. Automation Rules Engine
+16. Email & Notification System
+17. Deployment & DevOps (Free Tier)
+18. Environment Variables Reference
+19. Development Phases & Milestones
+20. Testing Strategy
+21. Performance Requirements
+22. Error Handling Standards
+23. File & Folder Structure
+24. Acceptance Criteria
+
+================================================================================
+SECTION 1 — EXECUTIVE SUMMARY
+================================================================================
+
+AdPilot AI is a fully functional MERN-stack SaaS product that connects to small
+brand Google Ads accounts, detects wasted ad spend using AI, and applies
+automated optimizations — all at zero infrastructure cost using free tiers.
+
+The product addresses a clear, scored problem:
+  Severity Score:    5 / 5
+  TAM Score:         50
+  Whitespace Score:  5 / 5
+  Frequency Score:   7.5
+  Itch Score:        85
+
+Target user: Small brand owners and solo marketers running Google Ads with
+monthly budgets between ₹10,000 and ₹5,00,000 (approx. $120–$6,000 USD).
+They lack the time, expertise, and budget to use enterprise tools like
+Optmyzr, WordStream, or Google's own Smart Campaigns effectively.
+
+Core value proposition:
+  "Connect your Google Ads account in 30 seconds. AI finds your wasted spend,
+   fixes it automatically, and shows you the results — no expertise required."
+
+================================================================================
+SECTION 2 — PROBLEM STATEMENT & MARKET CONTEXT
+================================================================================
+
+CORE PROBLEM:
+Small brands lose advertising spend because they lack the expertise and time
+to continuously optimize campaigns, making manual keyword tuning and budget
+allocation inefficient for low-budget Google Ads accounts.
+
+Specific pain points:
+  1. Broad match keywords drain budgets on zero-intent search queries.
+  2. Bid strategies are set once and never revisited.
+  3. Budget is distributed evenly across campaigns regardless of performance.
+  4. Mobile, geographic, and time-of-day bid adjustments are ignored.
+  5. Negative keyword lists are empty or stale.
+  6. Ad quality scores degrade over time without copy refresh.
+  7. No one is watching the account daily — small brands check weekly at best.
+
+MARKET GAP:
+  - Enterprise tools (Optmyzr, WordStream): $299–$999/month. Too expensive.
+  - Google Smart Campaigns: Black box. No transparency. Poor for niche products.
+  - Manual management: Requires 10+ hours/week. Small brands cannot afford it.
+  - AdPilot fills: AI-powered, transparent, affordable (₹0 to start), MERN-based.
+
+================================================================================
+SECTION 3 — PRODUCT VISION & GOALS
+================================================================================
+
+VISION:
+Every small brand on Google Ads has access to the same AI optimization
+capabilities that enterprise brands pay thousands of dollars for.
+
+PRODUCT GOALS (V1.0):
+  G1. Users can connect a Google Ads account via OAuth2 in under 2 minutes.
+  G2. AI audit completes in under 3 minutes for accounts with up to 1,000 keywords.
+  G3. Users can apply AI recommendations with a single click.
+  G4. Automation rules run daily without user intervention.
+  G5. Weekly performance reports are emailed every Monday automatically.
+  G6. Free tier supports up to ₹30,000/month managed spend per account.
+
+SUCCESS METRICS:
+  - Time to first AI recommendation: < 3 minutes from signup
+  - Average wasted spend recovered: > 20% of total monthly spend
+  - Weekly active users: > 60% of signups after 30 days
+  - Automation rule execution success rate: > 99.5%
+  - Email report open rate: > 40%
+
+================================================================================
+SECTION 4 — USER PERSONAS
+================================================================================
+
+PERSONA 1 — "The Solo Brand Owner" (Primary)
+  Name:         Ravi Patel, 32
+  Business:     D2C footwear brand, 3 years old
+  Ads Budget:   ₹40,000/month
+  Pain:         Spends 3 hours/week on Google Ads, still loses money
+  Goal:         Set it and forget it — let AI manage while he runs the business
+  Tech skill:   Medium. Uses Shopify, knows basic Google Ads.
+
+PERSONA 2 — "The Freelance Marketer" (Secondary)
+  Name:         Priya Sharma, 28
+  Business:     Manages 6 small brand accounts as a freelancer
+  Pain:         Cannot afford enterprise tools for client accounts
+  Goal:         Manage all client accounts in one dashboard, impress clients
+  Tech skill:   High. Comfortable with APIs and analytics.
+
+PERSONA 3 — "The Growing D2C Brand" (Aspirational)
+  Name:         Arjun Mehta, 40
+  Business:     ₹2Cr/year revenue, scaling ads to ₹2L/month
+  Pain:         Team of 2, no dedicated ads person
+  Goal:         AI autopilot so the team focuses on product and fulfillment
+  Tech skill:   Low. Needs everything automated and explained simply.
+
+================================================================================
+SECTION 5 — COMPLETE TECH STACK (ALL FREE TOOLS)
+================================================================================
+
+FRONTEND
+  Framework:          React 18 (Create React App or Vite)
+  Routing:            React Router v6
+  State Management:   Redux Toolkit + RTK Query
+  HTTP Client:        Axios
+  Charts:             Recharts (free, MIT license)
+  UI Components:      Custom (Spotify design system — no component library)
+  Forms:              React Hook Form + Zod validation
+  Toast/Notifications: React Hot Toast
+  PDF Generation:     jsPDF + jsPDF-AutoTable
+  Date Handling:      date-fns
+  Icons:              Lucide React (MIT)
+  Hosting:            Vercel (free tier — unlimited hobby projects)
+
+BACKEND
+  Runtime:            Node.js v20 LTS
+  Framework:          Express.js v4
+  Authentication:     Passport.js (Google OAuth2 strategy)
+  JWT:                jsonwebtoken
+  Session:            express-session + connect-mongo
+  Validation:         Joi
+  Scheduler:          node-cron (for automation rules)
+  HTTP Requests:      axios (for Google Ads API calls)
+  Rate Limiting:      express-rate-limit
+  Security:           helmet, cors, bcryptjs
+  Logging:            morgan + winston
+  Environment:        dotenv
+  Hosting:            Render.com (free tier — 750 hrs/month)
+
+DATABASE
+  Primary DB:         MongoDB Atlas (free tier — 512MB, shared cluster)
+  ODM:                Mongoose v8
+  Caching:            Node-cache (in-memory, no Redis needed on free tier)
+
+AI ENGINE
+  Provider:           Google Gemini 1.5 Flash API
+  Free tier:          1,000,000 tokens/day, 15 requests/minute
+  SDK:                @google/generative-ai (official npm package)
+  Usage:              Keyword analysis, negative keyword detection,
+                      bid recommendation, weekly report narrative generation
+
+GOOGLE ADS INTEGRATION
+  API:                Google Ads API v17 (free to use, billed on ad spend)
+  Auth:               OAuth2 via Google Identity
+  Library:            google-ads-api (npm — community wrapper, MIT)
+  Scopes needed:
+    - https://www.googleapis.com/auth/adwords
+    - https://www.googleapis.com/auth/userinfo.email
+    - https://www.googleapis.com/auth/userinfo.profile
+
+EMAIL
+  Provider:           Resend (free — 3,000 emails/month, 100/day)
+  SDK:                resend (official npm package)
+  Templates:          Custom HTML in Node.js (no template engine needed)
+
+ANALYTICS
+  Provider:           PostHog Cloud (free — 1,000,000 events/month)
+  SDK:                posthog-js (frontend) + posthog-node (backend)
+  Events to track:    signup, connect_ads, run_audit, apply_recommendation,
+                      create_rule, view_report, upgrade_plan
+
+FILE STORAGE (for reports)
+  Provider:           Cloudinary (free — 25GB storage, 25GB bandwidth/month)
+  SDK:                cloudinary npm package
+  Usage:              Store generated PDF weekly reports
+
+MONITORING
+  Provider:           Sentry (free — 5,000 errors/month)
+  SDK:                @sentry/node + @sentry/react
+
+VERSION CONTROL
+  Provider:           GitHub (free)
+  CI/CD:              GitHub Actions (free — 2,000 minutes/month)
+
+================================================================================
+SECTION 6 — SYSTEM ARCHITECTURE
+================================================================================
+
+HIGH-LEVEL ARCHITECTURE:
+
+  [React SPA on Vercel]
+         |
+         | HTTPS / REST API
+         |
+  [Express.js API on Render.com]
+         |
+    _____|_____________________________
+    |          |           |          |
+[MongoDB    [Google     [Gemini    [Resend
+ Atlas]      Ads API]    AI API]    Email]
+                |
+         [PostHog Analytics]
+
+DATA FLOW FOR AI AUDIT:
+  1. User clicks "Run AI Audit" in React frontend
+  2. POST /api/audit/run → Express handler
+  3. Express fetches campaign + keyword data from Google Ads API
+  4. Raw data is structured and sent to Gemini Flash API
+  5. Gemini returns JSON with prioritized recommendations
+  6. Recommendations are saved to MongoDB (AuditResult collection)
+  7. Response sent back to React frontend
+  8. Frontend renders recommendation cards in real-time
+  9. User clicks "Apply" → POST /api/audit/apply/:recommendationId
+  10. Express calls Google Ads API to execute the change
+  11. Change is logged in MongoDB (ActionLog collection)
+  12. PostHog event: apply_recommendation
+
+DATA FLOW FOR AUTOMATION RULES:
+  1. node-cron job runs every day at 3:00 AM IST
+  2. Fetches all active rules from MongoDB (AutomationRule collection)
+  3. For each rule, fetches relevant campaign data from Google Ads API
+  4. Evaluates IF condition against live data
+  5. If condition is true → executes THEN action via Google Ads API
+  6. Logs result in MongoDB (RuleExecutionLog collection)
+  7. If notify=true → sends email via Resend
+
+DATA FLOW FOR WEEKLY REPORT:
+  1. node-cron job runs every Monday at 9:00 AM IST
+  2. Fetches 7-day performance data per account from Google Ads API
+  3. Sends structured data to Gemini for narrative generation
+  4. Builds HTML email with charts and AI narrative
+  5. Generates PDF via jsPDF
+  6. Uploads PDF to Cloudinary
+  7. Sends email via Resend with PDF link
+  8. Saves report metadata in MongoDB (Report collection)
+
+================================================================================
+SECTION 7 — DATABASE SCHEMA (MONGODB)
+================================================================================
+
+COLLECTION: users
+--------------------------------------------------------------------------------
+{
+  _id:              ObjectId,
+  email:            String (unique, required, indexed),
+  name:             String,
+  avatar:           String (URL),
+  googleId:         String (unique, indexed),          // from Google OAuth
+  passwordHash:     String (null if OAuth-only user),
+  plan:             String (enum: 'free', 'growth', 'scale', default: 'free'),
+  planExpiresAt:    Date,
+  isEmailVerified:  Boolean (default: false),
+  emailVerifyToken: String,
+  resetToken:       String,
+  resetTokenExpiry: Date,
+  preferences: {
+    timezone:       String (default: 'Asia/Kolkata'),
+    currency:       String (default: 'INR'),
+    weeklyReportDay: Number (0=Sunday, 1=Monday, default: 1),
+    weeklyReportTime: String (default: '09:00'),
+    alertsEnabled:  Boolean (default: true),
+    emailAlerts:    Boolean (default: true),
+    inAppAlerts:    Boolean (default: true),
+  },
+  createdAt:        Date,
+  updatedAt:        Date,
+  lastLoginAt:      Date,
+}
+
+COLLECTION: google_accounts
+--------------------------------------------------------------------------------
+{
+  _id:              ObjectId,
+  userId:           ObjectId (ref: users, indexed),
+  customerId:       String (Google Ads Customer ID, e.g. '123-456-7890'),
+  accountName:      String,
+  currencyCode:     String (e.g. 'INR', 'USD'),
+  timeZone:         String,
+  accessToken:      String (encrypted),
+  refreshToken:     String (encrypted),
+  tokenExpiresAt:   Date,
+  isActive:         Boolean (default: true),
+  lastSyncAt:       Date,
+  syncStatus:       String (enum: 'pending', 'syncing', 'success', 'error'),
+  syncError:        String,
+  permissions: {
+    canReadCampaigns: Boolean,
+    canWriteBids:     Boolean,
+    canWriteBudgets:  Boolean,
+    canWriteKeywords: Boolean,
+  },
+  createdAt:        Date,
+  updatedAt:        Date,
+}
+
+COLLECTION: campaigns
+--------------------------------------------------------------------------------
+{
+  _id:              ObjectId,
+  accountId:        ObjectId (ref: google_accounts, indexed),
+  userId:           ObjectId (ref: users, indexed),
+  googleCampaignId: String (indexed),
+  name:             String,
+  status:           String (enum: 'ENABLED', 'PAUSED', 'REMOVED'),
+  type:             String (e.g. 'SEARCH', 'DISPLAY', 'SHOPPING', 'VIDEO'),
+  dailyBudget:      Number,
+  totalBudget:      Number,
+  biddingStrategy:  String,
+  targetCPA:        Number,
+  targetROAS:       Number,
+  startDate:        Date,
+  endDate:          Date,
+  labels:           [String],
+  aiScore:          Number (0–100, calculated on each sync),
+  aiScoreBreakdown: {
+    keywordHealth:  Number,
+    bidStrategy:    Number,
+    budgetAllocation: Number,
+    adQuality:      Number,
+    wasteScore:     Number,
+  },
+  lastAuditAt:      Date,
+  createdAt:        Date,
+  updatedAt:        Date,
+}
+
+COLLECTION: campaign_metrics
+--------------------------------------------------------------------------------
+// Time-series. One document per campaign per day.
+{
+  _id:              ObjectId,
+  campaignId:       ObjectId (ref: campaigns, indexed),
+  accountId:        ObjectId (ref: google_accounts, indexed),
+  userId:           ObjectId (ref: users),
+  date:             Date (indexed),
+  spend:            Number,
+  revenue:          Number,              // conversions * avg order value
+  impressions:      Number,
+  clicks:           Number,
+  conversions:      Number,
+  conversionValue:  Number,
+  ctr:              Number (percentage),
+  cpc:              Number (average),
+  cpa:              Number (cost per acquisition),
+  roas:             Number (return on ad spend),
+  qualityScoreAvg:  Number,
+  searchImpressionShare: Number,
+  createdAt:        Date,
+}
+
+COLLECTION: keywords
+--------------------------------------------------------------------------------
+{
+  _id:              ObjectId,
+  campaignId:       ObjectId (ref: campaigns, indexed),
+  adGroupId:        String,
+  adGroupName:      String,
+  accountId:        ObjectId (ref: google_accounts, indexed),
+  userId:           ObjectId (ref: users),
+  googleKeywordId:  String (indexed),
+  text:             String,
+  matchType:        String (enum: 'EXACT', 'PHRASE', 'BROAD'),
+  status:           String (enum: 'ENABLED', 'PAUSED', 'REMOVED'),
+  bidAmount:        Number,
+  finalUrls:        [String],
+  qualityScore:     Number (1–10),
+  qualityScoreHistory: [{ date: Date, score: Number }],
+  aiTag:            String (enum: 'TOP_PERFORMER', 'WASTING_BUDGET',
+                                  'LOW_VOLUME', 'OPPORTUNITY', 'NORMAL'),
+  metrics7d: {
+    spend:          Number,
+    clicks:         Number,
+    impressions:    Number,
+    conversions:    Number,
+    ctr:            Number,
+    cpc:            Number,
+    roas:           Number,
+  },
+  metrics30d: {
+    spend:          Number,
+    clicks:         Number,
+    impressions:    Number,
+    conversions:    Number,
+    ctr:            Number,
+    cpc:            Number,
+    roas:           Number,
+  },
+  isNegative:       Boolean (default: false),
+  createdAt:        Date,
+  updatedAt:        Date,
+}
+
+COLLECTION: audit_results
+--------------------------------------------------------------------------------
+{
+  _id:              ObjectId,
+  userId:           ObjectId (ref: users, indexed),
+  accountId:        ObjectId (ref: google_accounts, indexed),
+  triggeredBy:      String (enum: 'manual', 'scheduled', 'onboarding'),
+  status:           String (enum: 'running', 'completed', 'failed'),
+  startedAt:        Date,
+  completedAt:      Date,
+  durationSeconds:  Number,
+  summary: {
+    totalWastedSpend:   Number,
+    projectedROASGain:  Number,
+    totalActions:       Number,
+    highPriorityCount:  Number,
+    medPriorityCount:   Number,
+    lowPriorityCount:   Number,
+    accountHealthScore: Number,
+  },
+  recommendations: [
+    {
+      _id:              ObjectId,
+      priority:         String (enum: 'P1', 'P2', 'P3'),
+      type:             String (enum: 'NEGATIVE_KEYWORD', 'BID_INCREASE',
+                                      'BID_DECREASE', 'BUDGET_SHIFT',
+                                      'PAUSE_KEYWORD', 'RESUME_KEYWORD',
+                                      'PAUSE_CAMPAIGN', 'NEW_KEYWORD',
+                                      'AD_SCHEDULE', 'DEVICE_BID',
+                                      'GEOGRAPHIC_BID', 'QUALITY_SCORE'),
+      title:            String,
+      description:      String,
+      reasoning:        String,             // AI explanation
+      campaignId:       ObjectId,
+      campaignName:     String,
+      adGroupId:        String,
+      keywordId:        ObjectId,
+      keywordText:      String,
+      currentValue:     Mixed,             // current bid, budget, etc.
+      proposedValue:    Mixed,             // what AI recommends
+      projectedImpact: {
+        weeklySpendChange:   Number,
+        weeklyRevenueChange: Number,
+        roasChange:          Number,
+      },
+      status:           String (enum: 'pending', 'applied', 'dismissed',
+                                      'failed'),
+      appliedAt:        Date,
+      dismissedAt:      Date,
+      failureReason:    String,
+    }
+  ],
+  rawGeminiResponse: String,              // store for debugging
+  createdAt:        Date,
+}
+
+COLLECTION: automation_rules
+--------------------------------------------------------------------------------
+{
+  _id:              ObjectId,
+  userId:           ObjectId (ref: users, indexed),
+  accountId:        ObjectId (ref: google_accounts),
+  name:             String,
+  description:      String,
+  isActive:         Boolean (default: true),
+  scope: {
+    applyTo:        String (enum: 'all_campaigns', 'selected_campaigns',
+                                   'all_keywords', 'selected_ad_groups'),
+    campaignIds:    [ObjectId],
+    adGroupIds:     [String],
+  },
+  conditions: [
+    {
+      metric:       String (e.g. 'cpc', 'conversions', 'roas', 'ctr',
+                                 'spend', 'quality_score', 'impressions'),
+      operator:     String (enum: 'gt', 'lt', 'gte', 'lte', 'eq', 'neq'),
+      value:        Number,
+      timeWindow:   String (enum: '1d', '7d', '14d', '30d'),
+    }
+  ],
+  conditionLogic:   String (enum: 'AND', 'OR', default: 'AND'),
+  action: {
+    type:           String (enum: 'PAUSE_KEYWORD', 'PAUSE_CAMPAIGN',
+                                   'ENABLE_KEYWORD', 'ENABLE_CAMPAIGN',
+                                   'INCREASE_BID', 'DECREASE_BID',
+                                   'SET_BID', 'INCREASE_BUDGET',
+                                   'DECREASE_BUDGET', 'SET_BUDGET',
+                                   'ADD_NEGATIVE_KEYWORD', 'SEND_ALERT'),
+    value:          Mixed,              // bid amount, percentage, etc.
+    valueType:      String (enum: 'absolute', 'percentage'),
+  },
+  schedule: {
+    frequency:      String (enum: 'hourly', 'daily', 'weekly'),
+    time:           String (HH:MM format, e.g. '09:00'),
+    dayOfWeek:      Number (0-6, for weekly rules),
+    timezone:       String,
+  },
+  notification: {
+    notifyOnFire:   Boolean (default: true),
+    email:          Boolean (default: true),
+    inApp:          Boolean (default: true),
+  },
+  executionCount:   Number (default: 0),
+  lastExecutedAt:   Date,
+  lastExecutionStatus: String,
+  nextExecutionAt:  Date,
+  createdAt:        Date,
+  updatedAt:        Date,
+}
+
+COLLECTION: rule_execution_logs
+--------------------------------------------------------------------------------
+{
+  _id:              ObjectId,
+  ruleId:           ObjectId (ref: automation_rules, indexed),
+  userId:           ObjectId (ref: users),
+  accountId:        ObjectId (ref: google_accounts),
+  executedAt:       Date (indexed),
+  status:           String (enum: 'success', 'no_match', 'partial', 'failed'),
+  itemsEvaluated:   Number,
+  itemsMatched:     Number,
+  itemsActedOn:     Number,
+  actions: [
+    {
+      entityType:   String (e.g. 'keyword', 'campaign', 'ad_group'),
+      entityId:     String,
+      entityName:   String,
+      actionTaken:  String,
+      valueBefore:  Mixed,
+      valueAfter:   Mixed,
+      success:      Boolean,
+      error:        String,
+    }
+  ],
+  durationMs:       Number,
+  errorMessage:     String,
+}
+
+COLLECTION: reports
+--------------------------------------------------------------------------------
+{
+  _id:              ObjectId,
+  userId:           ObjectId (ref: users, indexed),
+  accountId:        ObjectId (ref: google_accounts),
+  type:             String (enum: 'weekly', 'monthly', 'audit', 'custom'),
+  period: {
+    startDate:      Date,
+    endDate:        Date,
+  },
+  status:           String (enum: 'generating', 'ready', 'failed'),
+  summary: {
+    totalSpend:     Number,
+    totalRevenue:   Number,
+    totalRoas:      Number,
+    totalImpressions: Number,
+    totalClicks:    Number,
+    totalConversions: Number,
+    wastedSpend:    Number,
+    aiActionsApplied: Number,
+    improvementVsLastPeriod: Number,  // percentage
+  },
+  aiNarrative: {
+    executiveSummary: String,
+    winsThisWeek:   [String],
+    actionsNextWeek: [String],
+    insights:       [String],
+  },
+  pdfUrl:           String (Cloudinary URL),
+  emailSentAt:      Date,
+  viewedAt:         Date,
+  createdAt:        Date,
+}
+
+COLLECTION: notifications
+--------------------------------------------------------------------------------
+{
+  _id:              ObjectId,
+  userId:           ObjectId (ref: users, indexed),
+  type:             String (enum: 'waste_alert', 'rule_fired', 'audit_complete',
+                                   'report_ready', 'budget_cap', 'roas_drop',
+                                   'account_error', 'recommendation_applied'),
+  title:            String,
+  message:          String,
+  severity:         String (enum: 'info', 'warning', 'critical'),
+  isRead:           Boolean (default: false),
+  actionUrl:        String,
+  metadata:         Object,             // extra context data
+  createdAt:        Date (indexed),
+}
+
+================================================================================
+SECTION 8 — API DESIGN (REST ENDPOINTS)
+================================================================================
+
+BASE URL: https://api.adpilot.ai/api/v1
+All authenticated routes require: Authorization: Bearer <jwt_token>
+All responses follow: { success: Boolean, data: Object|Array, error: String }
+
+────────────────────────────────────────────────────────────────────────────────
+AUTH ROUTES — /api/v1/auth
+────────────────────────────────────────────────────────────────────────────────
+
+POST   /auth/register
+  Body: { email, password, name }
+  Returns: { user, token }
+  Validation: email (valid format), password (min 8 chars), name (min 2 chars)
+
+POST   /auth/login
+  Body: { email, password }
+  Returns: { user, token }
+
+POST   /auth/logout
+  Returns: { message: 'Logged out' }
+
+GET    /auth/google
+  Redirects to Google OAuth consent screen
+  Scopes: email, profile, https://www.googleapis.com/auth/adwords
+
+GET    /auth/google/callback
+  Handles OAuth callback from Google
+  Creates/updates user, sets JWT cookie
+  Redirects to frontend /dashboard
+
+POST   /auth/refresh
+  Body: { refreshToken }
+  Returns: { token }
+
+POST   /auth/forgot-password
+  Body: { email }
+  Returns: { message: 'Reset email sent' }
+
+POST   /auth/reset-password
+  Body: { token, newPassword }
+  Returns: { message: 'Password reset successful' }
+
+GET    /auth/me
+  Returns: { user } (current logged-in user)
+
+────────────────────────────────────────────────────────────────────────────────
+GOOGLE ADS ACCOUNT ROUTES — /api/v1/accounts
+────────────────────────────────────────────────────────────────────────────────
+
+GET    /accounts
+  Returns: [list of connected Google Ads accounts for current user]
+
+POST   /accounts/connect
+  Body: { authCode, customerId }
+  Exchanges auth code for tokens, stores encrypted in DB
+  Returns: { account }
+
+DELETE /accounts/:accountId
+  Revokes access and removes account from DB
+  Returns: { message: 'Account disconnected' }
+
+GET    /accounts/:accountId/sync
+  Triggers manual data sync from Google Ads API
+  Returns: { syncJob: { jobId, status, startedAt } }
+
+GET    /accounts/:accountId/sync/status
+  Returns: { syncStatus, lastSyncAt, progress }
+
+POST   /accounts/:accountId/permissions
+  Body: { canWriteBids, canWriteBudgets, canWriteKeywords }
+  Returns: { account }
+
+────────────────────────────────────────────────────────────────────────────────
+CAMPAIGNS ROUTES — /api/v1/campaigns
+────────────────────────────────────────────────────────────────────────────────
+
+GET    /campaigns
+  Query: accountId, status, type, page, limit, sortBy, sortOrder
+  Returns: { campaigns: [], total, page, pages }
+
+GET    /campaigns/:campaignId
+  Returns: { campaign, recentMetrics: [7 days], topKeywords: [10] }
+
+GET    /campaigns/:campaignId/metrics
+  Query: startDate, endDate, granularity (daily|weekly|monthly)
+  Returns: { metrics: [] }
+
+GET    /campaigns/:campaignId/keywords
+  Query: page, limit, matchType, status, aiTag, sortBy
+  Returns: { keywords: [], total }
+
+PATCH  /campaigns/:campaignId/pause
+  Calls Google Ads API to pause campaign
+  Returns: { campaign }
+
+PATCH  /campaigns/:campaignId/enable
+  Calls Google Ads API to enable campaign
+  Returns: { campaign }
+
+PATCH  /campaigns/:campaignId/budget
+  Body: { dailyBudget }
+  Calls Google Ads API to update budget
+  Returns: { campaign }
+
+────────────────────────────────────────────────────────────────────────────────
+KEYWORDS ROUTES — /api/v1/keywords
+────────────────────────────────────────────────────────────────────────────────
+
+GET    /keywords
+  Query: accountId, campaignId, adGroupId, aiTag, matchType, page, limit
+  Returns: { keywords: [], total }
+
+GET    /keywords/negatives
+  Query: accountId, campaignId
+  Returns: { negativeKeywords: [] }
+
+POST   /keywords/negatives
+  Body: { campaignId, keywords: [{ text, matchType }] }
+  Calls Google Ads API to add negative keywords
+  Returns: { added: Number, keywords: [] }
+
+PATCH  /keywords/:keywordId/bid
+  Body: { bidAmount }
+  Calls Google Ads API to update keyword bid
+  Returns: { keyword }
+
+PATCH  /keywords/:keywordId/pause
+  Calls Google Ads API to pause keyword
+  Returns: { keyword }
+
+PATCH  /keywords/:keywordId/enable
+  Returns: { keyword }
+
+DELETE /keywords/:keywordId
+  Removes keyword from Google Ads (soft delete in DB)
+  Returns: { message: 'Keyword removed' }
+
+GET    /keywords/suggestions
+  Query: accountId, campaignId
+  Uses Gemini AI to suggest new keywords based on existing ones
+  Returns: { suggestions: [{ text, matchType, estimatedCPC, volume }] }
+
+POST   /keywords/bulk
+  Body: { action: 'pause'|'enable'|'delete'|'add_negative', keywordIds: [] }
+  Returns: { processed: Number, errors: [] }
+
+────────────────────────────────────────────────────────────────────────────────
+AUDIT ROUTES — /api/v1/audit
+────────────────────────────────────────────────────────────────────────────────
+
+POST   /audit/run
+  Body: { accountId, goal, campaignIds, aggressionLevel, monthlyBudget }
+  Triggers async AI audit, returns jobId immediately
+  Returns: { jobId, status: 'running', estimatedSeconds: 90 }
+
+GET    /audit/:jobId/status
+  Poll this endpoint to check audit progress
+  Returns: { status, progress, completedAt, auditId }
+
+GET    /audit/:auditId
+  Returns: { audit } (full audit result with all recommendations)
+
+GET    /audit/history
+  Query: accountId, page, limit
+  Returns: { audits: [], total }
+
+POST   /audit/:auditId/recommendations/:recommendationId/apply
+  Executes the recommendation against Google Ads API
+  Returns: { recommendation, executionResult }
+
+POST   /audit/:auditId/recommendations/:recommendationId/dismiss
+  Marks recommendation as dismissed
+  Returns: { recommendation }
+
+POST   /audit/:auditId/apply-all
+  Query: priority (P1|P2|P3 or all)
+  Applies all recommendations of given priority
+  Returns: { applied: Number, failed: Number, results: [] }
+
+────────────────────────────────────────────────────────────────────────────────
+AUTOMATION RULES ROUTES — /api/v1/rules
+────────────────────────────────────────────────────────────────────────────────
+
+GET    /rules
+  Query: accountId, isActive
+  Returns: { rules: [] }
+
+POST   /rules
+  Body: { name, description, accountId, scope, conditions, action, schedule, notification }
+  Returns: { rule }
+
+GET    /rules/:ruleId
+  Returns: { rule, recentExecutions: [5 most recent] }
+
+PUT    /rules/:ruleId
+  Body: (same as POST)
+  Returns: { rule }
+
+PATCH  /rules/:ruleId/toggle
+  Body: { isActive: Boolean }
+  Returns: { rule }
+
+DELETE /rules/:ruleId
+  Returns: { message: 'Rule deleted' }
+
+POST   /rules/:ruleId/run-now
+  Executes the rule immediately (manual trigger)
+  Returns: { executionLog }
+
+GET    /rules/:ruleId/logs
+  Query: page, limit, startDate, endDate
+  Returns: { logs: [], total }
+
+GET    /rules/templates
+  Returns: { templates: [] } (pre-built rule templates)
+
+POST   /rules/from-template/:templateId
+  Body: { accountId, customizations }
+  Creates a rule from a template
+  Returns: { rule }
+
+────────────────────────────────────────────────────────────────────────────────
+ANALYTICS ROUTES — /api/v1/analytics
+────────────────────────────────────────────────────────────────────────────────
+
+GET    /analytics/overview
+  Query: accountId, startDate, endDate
+  Returns aggregated performance metrics across all campaigns
+  Returns: { spend, revenue, roas, ctr, impressions, clicks, conversions,
+             wastedSpend, vsLastPeriod: { spend, revenue, roas } }
+
+GET    /analytics/campaigns
+  Query: accountId, startDate, endDate, sortBy
+  Returns campaign-level breakdown
+  Returns: { campaigns: [], chartData: [] }
+
+GET    /analytics/trends
+  Query: accountId, metric, startDate, endDate, granularity
+  Returns time-series data for a specific metric
+  Returns: { data: [{ date, value, comparisonValue }] }
+
+GET    /analytics/heatmap
+  Query: accountId, metric, startDate, endDate
+  Returns day-of-week × hour-of-day performance matrix
+  Returns: { matrix: 7×24 Array, bestHours: [], worstHours: [] }
+
+GET    /analytics/waste
+  Query: accountId, startDate, endDate
+  Returns detailed waste breakdown
+  Returns: { total, breakdown: [], savingsOpportunity }
+
+GET    /analytics/keywords/top
+  Query: accountId, limit, metric, startDate, endDate
+  Returns: { keywords: [] }
+
+────────────────────────────────────────────────────────────────────────────────
+REPORTS ROUTES — /api/v1/reports
+────────────────────────────────────────────────────────────────────────────────
+
+GET    /reports
+  Query: accountId, type, page, limit
+  Returns: { reports: [], total }
+
+POST   /reports/generate
+  Body: { accountId, type, startDate, endDate }
+  Triggers async report generation
+  Returns: { jobId }
+
+GET    /reports/:reportId
+  Returns: { report } (with AI narrative and all metrics)
+
+GET    /reports/:reportId/pdf
+  Returns: { pdfUrl } (Cloudinary signed URL)
+
+POST   /reports/:reportId/send-email
+  Sends report email to user
+  Returns: { message: 'Email sent' }
+
+────────────────────────────────────────────────────────────────────────────────
+NOTIFICATIONS ROUTES — /api/v1/notifications
+────────────────────────────────────────────────────────────────────────────────
+
+GET    /notifications
+  Query: isRead, type, page, limit
+  Returns: { notifications: [], unreadCount }
+
+PATCH  /notifications/:id/read
+  Returns: { notification }
+
+PATCH  /notifications/read-all
+  Returns: { updated: Number }
+
+DELETE /notifications/:id
+  Returns: { message: 'Deleted' }
+
+────────────────────────────────────────────────────────────────────────────────
+USER/SETTINGS ROUTES — /api/v1/users
+────────────────────────────────────────────────────────────────────────────────
+
+GET    /users/me
+  Returns: { user }
+
+PUT    /users/me
+  Body: { name, preferences }
+  Returns: { user }
+
+POST   /users/me/change-password
+  Body: { currentPassword, newPassword }
+  Returns: { message: 'Password changed' }
+
+DELETE /users/me
+  Deletes account and all associated data (GDPR)
+  Returns: { message: 'Account deleted' }
+
+GET    /users/me/plan
+  Returns: { plan, usage, limits }
+
+================================================================================
+SECTION 9 — FEATURE SPECIFICATIONS (ALL MODULES)
+================================================================================
+
+────────────────────────────────────────────────────────────────────────────────
+FEATURE 1: AUTHENTICATION & ONBOARDING
+────────────────────────────────────────────────────────────────────────────────
+
+F1.1 — Email/Password Registration
+  - Email + password signup
+  - Send verification email via Resend
+  - Verify email before allowing Google Ads connection
+  - Redirect to onboarding flow after verification
+
+F1.2 — Google OAuth Login
+  - "Continue with Google" button
+  - OAuth2 flow using Passport.js Google strategy
+  - Auto-fill name and avatar from Google profile
+  - If user already exists with same email → merge accounts
+  - Generate JWT access token (15 min) + refresh token (7 days)
+  - Store refresh token hash in MongoDB users collection
+
+F1.3 — Onboarding Flow (5 Steps)
+  Step 1: Account created (auto-complete after registration)
+  Step 2: Connect Google Ads account (OAuth + Customer ID)
+  Step 3: Configure AI rules (aggression level, goal, budget context)
+  Step 4: Set up alerts (email thresholds)
+  Step 5: Done (run first AI audit)
+
+  - Progress is persisted in user.onboardingStep field
+  - Users can skip and return later
+  - "Demo mode" available if no Google Ads account (uses mock data)
+
+F1.4 — Session Management
+  - JWT stored in httpOnly cookie
+  - Refresh token rotation on every use
+  - Auto-logout on token expiry
+  - "Remember me" extends refresh token to 30 days
+
+────────────────────────────────────────────────────────────────────────────────
+FEATURE 2: GOOGLE ADS ACCOUNT CONNECTION
+────────────────────────────────────────────────────────────────────────────────
+
+F2.1 — OAuth2 Connection Flow
+  - User clicks "Connect with Google Ads"
+  - Redirect to Google OAuth consent screen with adwords scope
+  - On callback: exchange code for access + refresh tokens
+  - Encrypt both tokens using AES-256 before storing in MongoDB
+  - Verify access by making a test call to Google Ads API
+  - Store account name, customer ID, currency, timezone
+
+F2.2 — Manual Customer ID Entry
+  - Allow users who already authenticated via Google to enter Customer ID
+  - Validate format (XXX-XXX-XXXX or numeric)
+  - Make test API call to verify access
+  - Show error if insufficient permissions
+
+F2.3 — Token Refresh Logic
+  - Before every Google Ads API call, check tokenExpiresAt
+  - If expired (or within 5 minutes of expiry): call Google token refresh endpoint
+  - Update encrypted tokens in MongoDB
+  - On refresh failure: mark account syncStatus='error', send alert email
+
+F2.4 — Initial Data Sync
+  - After connection, trigger full sync:
+    a. Fetch all non-removed campaigns
+    b. Fetch all ad groups per campaign
+    c. Fetch all keywords per ad group
+    d. Fetch last 90 days of daily metrics per campaign
+    e. Fetch last 7 days of search term reports
+  - Show sync progress to user (polling /sync/status every 3 seconds)
+  - Typical sync time: 30–120 seconds depending on account size
+  - On complete: redirect user to dashboard with data loaded
+
+F2.5 — Ongoing Sync Schedule
+  - Background cron: every 6 hours, sync all active accounts
+  - Sync only incremental data (yesterday's metrics + current status)
+  - Full sync: every Sunday at 2:00 AM IST
+  - Sync errors logged and user notified
+
+────────────────────────────────────────────────────────────────────────────────
+FEATURE 3: AI AUDIT ENGINE
+────────────────────────────────────────────────────────────────────────────────
+
+F3.1 — Audit Trigger
+  - Manual: user clicks "Run AI Audit" button
+  - Scheduled: every Monday at 3:00 AM IST (via node-cron)
+  - Onboarding: auto-triggered after first successful sync
+  - API: POST /audit/run with configuration options
+
+F3.2 — Data Collection Phase (before calling Gemini)
+  Collect from MongoDB (already synced data):
+  a. All campaigns with last 7-day and 30-day metrics
+  b. All keywords with last 7-day and 30-day metrics
+  c. Search term reports (what actual queries triggered keywords)
+  d. Device performance breakdown
+  e. Geographic performance breakdown (top 20 locations by spend)
+  f. Hour-of-day performance breakdown
+  g. Previous audit results (to avoid repeating dismissed suggestions)
+
+F3.3 — Gemini AI Prompt Design
+  System prompt:
+    "You are an expert Google Ads optimization AI for small brands.
+     You analyze campaign data and return actionable, specific recommendations
+     to reduce wasted spend and improve ROAS. You always return valid JSON.
+     Focus on the highest-impact changes first. Be specific with numbers.
+     Never recommend more than 15 total actions per audit."
+
+  User prompt structure (send as structured JSON):
+    {
+      account: { currency, budget, goal },
+      campaigns: [{ name, spend, revenue, roas, status, budget }],
+      keywords: [
+        { text, matchType, spend_7d, conversions_7d, cpc, quality_score }
+      ],
+      searchTerms: [
+        { query, keyword_triggered, spend, clicks, conversions }
+      ],
+      devicePerformance: { mobile, desktop, tablet },
+      previouslyDismissed: [recommendation types to avoid]
+    }
+
+  Expected Gemini response format (instruct model to return ONLY this):
+    {
+      healthScore: Number (0-100),
+      summary: {
+        wastedSpend: Number,
+        projectedROASGain: Number,
+        urgency: "high|medium|low"
+      },
+      recommendations: [
+        {
+          priority: "P1|P2|P3",
+          type: "NEGATIVE_KEYWORD|BID_INCREASE|...",
+          title: String,
+          description: String,
+          reasoning: String,
+          targetEntity: { type, id, name },
+          currentValue: Mixed,
+          proposedValue: Mixed,
+          projectedWeeklySavings: Number,
+          projectedWeeklyRevenueGain: Number
+        }
+      ]
+    }
+
+F3.4 — Recommendation Execution
+  When user clicks "Apply Now" for a recommendation:
+
+  NEGATIVE_KEYWORD:
+    → Call Google Ads API CampaignCriterionService.mutate
+    → Add negative keywords to campaign or ad group
+    → Update keyword aiTag in MongoDB
+
+  BID_INCREASE / BID_DECREASE:
+    → Call Google Ads API AdGroupCriterionService.mutate
+    → Update keyword.bidAmount in MongoDB
+
+  BUDGET_SHIFT:
+    → Call Google Ads API CampaignBudgetService.mutate for both campaigns
+    → Update campaigns.dailyBudget in MongoDB
+
+  PAUSE_KEYWORD:
+    → Call Google Ads API AdGroupCriterionService.mutate (status=PAUSED)
+    → Update keyword.status in MongoDB
+
+  AD_SCHEDULE:
+    → Call Google Ads API CampaignCriterionService (ad schedules)
+
+  On success: recommendation.status = 'applied', log to ActionLog
+  On failure: recommendation.status = 'failed', log error, show user
+
+F3.5 — Account Health Score Calculation
+  Score = weighted average of 5 components (0-100 each):
+    Keywords Health    (25% weight): % of keywords with conv rate > 0 + no waste
+    Bid Strategy       (20% weight): appropriate strategy for account size/goal
+    Budget Allocation  (20% weight): budget concentration on high-ROAS campaigns
+    Ad Quality         (20% weight): average quality score across all keywords
+    Waste Score        (15% weight): inverse of wasted spend percentage
+
+  Score thresholds:
+    80-100: Excellent (green)
+    60-79:  Good (yellow)
+    40-59:  Needs Work (orange)
+    0-39:   Poor (red)
+
+────────────────────────────────────────────────────────────────────────────────
+FEATURE 4: AUTOMATION RULES ENGINE
+────────────────────────────────────────────────────────────────────────────────
+
+F4.1 — Rule Builder UI
+  Visual IF → THEN interface:
+  IF: [metric] [operator] [value] [time window]
+  AND/OR logic for multiple conditions
+  THEN: [action] [value/type]
+  WHEN: [schedule frequency] at [time]
+  NOTIFY: [email/in-app toggles]
+
+F4.2 — Available Metrics for Conditions
+  - CPC (cost per click)
+  - CPA (cost per acquisition)
+  - ROAS (return on ad spend)
+  - CTR (click-through rate)
+  - Conversions (count)
+  - Spend (total amount)
+  - Impressions (count)
+  - Quality Score (keyword level)
+  - Budget Utilization (% of daily budget used)
+
+F4.3 — Available Actions
+  - Pause keyword / campaign / ad group
+  - Enable keyword / campaign / ad group
+  - Increase bid by X% or to ₹X
+  - Decrease bid by X% or to ₹X
+  - Increase daily budget by X% or to ₹X
+  - Decrease daily budget by X% or to ₹X
+  - Add keyword as negative
+  - Send alert (no Google Ads change, just notify)
+
+F4.4 — Pre-Built Rule Templates
+  Template 1: "Pause zero-convert keywords"
+    IF conversions (14d) = 0 AND spend (14d) > ₹500 AND CPC > ₹20
+    THEN pause keyword
+    SCHEDULE: Daily at 9:00 AM
+
+  Template 2: "Boost high-ROAS ad groups"
+    IF ROAS (7d) > 5 AND spend (7d) > ₹1,000
+    THEN increase bid by 20%
+    SCHEDULE: Daily at 9:00 AM
+
+  Template 3: "Budget cap protection"
+    IF budget utilization (1d) > 90%
+    THEN send alert + decrease budget by 10%
+    SCHEDULE: Hourly
+
+  Template 4: "Night hours pause"
+    IF hour = 23 OR hour = 0..6
+    THEN pause all campaigns
+    SCHEDULE: Hourly (checks time condition)
+
+  Template 5: "Low quality score alert"
+    IF quality score < 5 AND impressions (7d) > 100
+    THEN send alert
+    SCHEDULE: Daily at 9:00 AM
+
+  Template 6: "Competitor bid spike detection"
+    IF CPC (1d) > CPC (7d) * 1.5 AND spend (1d) > ₹200
+    THEN send alert
+    SCHEDULE: Daily at 9:00 AM
+
+F4.5 — Rule Execution Engine (node-cron)
+  Cron schedule overview:
+    Hourly rules:   '0 * * * *'  (every hour)
+    Daily rules:    '0 9 * * *'  (9 AM IST = 3:30 AM UTC)
+    Weekly rules:   '0 9 * * 1'  (Monday 9 AM IST)
+
+  Execution logic per rule:
+    1. Fetch all active rules for schedule frequency
+    2. For each rule, fetch relevant data from MongoDB (already synced)
+    3. For each entity in scope (keyword/campaign/ad group):
+       a. Evaluate all conditions
+       b. Apply conditionLogic (AND/OR)
+       c. If conditions met → execute action via Google Ads API
+       d. Log result
+    4. Save RuleExecutionLog document
+    5. If notification enabled → create Notification document
+    6. If email enabled → send via Resend
+
+F4.6 — Rule Simulation
+  Before saving a rule, user can click "Simulate"
+  Backend evaluates conditions against current data (no changes made)
+  Returns: how many entities would be affected and what action would be taken
+  Frontend shows preview list to user
+
+────────────────────────────────────────────────────────────────────────────────
+FEATURE 5: DASHBOARD & ANALYTICS
+────────────────────────────────────────────────────────────────────────────────
+
+F5.1 — Dashboard KPI Cards
+  5 cards: Total Spend, Revenue, ROAS, Wasted Spend, Impressions
+  Each shows: current value, delta vs previous period, trend arrow
+  Time period selector: 7D / 30D / 90D / Custom date range
+  Data from MongoDB aggregation on campaign_metrics collection
+
+F5.2 — Spend vs Revenue Chart
+  Grouped bar chart (Recharts BarChart)
+  X-axis: dates, Y-axis: currency amount
+  Two bar series: spend (gray), revenue (green)
+  Hover tooltip: shows both values + ROAS for that day
+  Responsive container: fills card width
+
+F5.3 — Wasted Spend Breakdown
+  Progress bar showing wasted % of total budget
+  4 waste categories with amounts:
+    - Low-intent broad keywords
+    - Zero-converting device segments
+    - Off-peak hour spend
+    - Zero-converting geographic segments
+  "Fix All" button triggers AI audit pre-filtered to waste category
+
+F5.4 — Campaign Health Table
+  Columns: Name, Status, Budget/Day, ROAS, AI Score, CTR, Action
+  Row colors: warn row for campaigns with AI Score < 60
+  Sortable columns
+  Clickable rows → campaign detail page
+  Action buttons: Optimize / Review / Resume / Pause
+
+F5.5 — Analytics Deep Dive Page
+  Date range picker (date-fns + custom calendar component)
+  Compare toggle: current vs previous same-length period
+  Charts:
+    - Performance over time (line chart, metric selector)
+    - Campaign ROAS comparison (horizontal bar chart)
+    - Budget allocation donut chart
+    - Hour-of-day performance heatmap (7×24 grid)
+  AI Insights strip: horizontal scroll, 5 AI-generated insights from Gemini
+
+────────────────────────────────────────────────────────────────────────────────
+FEATURE 6: KEYWORD MANAGER
+────────────────────────────────────────────────────────────────────────────────
+
+F6.1 — Keyword Table
+  Virtual scroll for large accounts (react-window)
+  Columns: Keyword, Match Type badge, Campaign, Bid, CTR, Conv%, ROAS,
+           Quality Score (colored), AI Tag badge, Status, Actions
+  Filters: Campaign, Match Type, Status, AI Tag
+  Sort: any column
+  Bulk select: checkboxes + bulk action bar
+  Row hover: quick action icons (pause, boost, add negative)
+
+F6.2 — AI Tag Calculation (runs on each sync)
+  TOP_PERFORMER: ROAS > account avg ROAS * 1.5 AND conversions_7d > 3
+  WASTING_BUDGET: spend_7d > ₹500 AND conversions_7d = 0
+  LOW_VOLUME:     impressions_7d < 10
+  OPPORTUNITY:    quality_score >= 8 AND bid < avg CPC for similar keywords
+  NORMAL:         everything else
+
+F6.3 — Negative Keyword Finder (AI-powered)
+  Fetches search term report from Google Ads API (last 30 days)
+  Filters: queries that triggered keywords but had 0 conversions AND spend > ₹100
+  Sends top 50 waste-causing queries to Gemini for analysis
+  Gemini categorizes which are definitely irrelevant (not just low-converting)
+  Returns list with reasoning for each suggested negative
+  User reviews list, checks/unchecks, clicks "Add Selected"
+  Calls /api/v1/keywords/negatives POST to add to Google Ads
+
+F6.4 — Keyword Opportunity Finder (AI-powered)
+  Calls Gemini with: existing keyword list + niche/industry context
+  Gemini suggests 10-20 new high-intent keywords the account is missing
+  Each suggestion includes: estimated CPC range, search volume tier, intent score
+  User selects keywords, chooses campaign, clicks "Add to Campaign"
+  Calls Google Ads API KeywordPlanIdeaService for volume estimates
+
+────────────────────────────────────────────────────────────────────────────────
+FEATURE 7: WEEKLY REPORT
+────────────────────────────────────────────────────────────────────────────────
+
+F7.1 — Automatic Weekly Generation
+  node-cron: '0 9 * * 1' (Every Monday 9:00 AM IST)
+  For each active user with connected accounts:
+    1. Fetch 7-day metrics from MongoDB
+    2. Build structured data object
+    3. Send to Gemini for narrative generation
+    4. Generate PDF using jsPDF + jsPDF-AutoTable
+    5. Upload PDF to Cloudinary
+    6. Save Report document in MongoDB
+    7. Send email via Resend
+
+F7.2 — Report Content
+  Executive Summary (AI-generated, 2-3 paragraphs)
+  KPI comparison table: this week vs last week
+  Campaign performance table (all campaigns)
+  Spend vs Revenue chart (embedded as base64 image in PDF)
+  Wins this week: bullet list (AI-generated)
+  Action items for next week: bullet list (AI-generated)
+  AI recommendations summary: what was applied, what's pending
+
+F7.3 — Gemini Prompt for Report Narrative
+  System: "You are a senior Google Ads analyst writing a weekly performance
+           summary for a small business owner. Be specific, actionable, and
+           encouraging. Point out both wins and areas to improve. Use simple
+           language — not jargon. Keep it under 300 words total."
+  User: structured JSON with this week's and last week's data
+
+F7.4 — PDF Generation (jsPDF)
+  A4 format, portrait orientation
+  Spotify-inspired dark theme (dark bg not possible in PDF → use light print-ready)
+  Header: AdPilot AI logo + account name + date range
+  Sections with clear headings
+  KPI table with color-coded delta column (green for positive, red for negative)
+  Campaign table: all campaigns with metrics
+  Footer: "Generated by AdPilot AI" + report date
+
+F7.5 — Email Template (Resend)
+  HTML email with inline CSS (no external CSS)
+  Responsive, renders well in Gmail, Outlook, Apple Mail
+  Sections:
+    - Header with logo and week period
+    - 4 KPI boxes (inline blocks)
+    - Top 3 insights from AI
+    - Call-to-action button: "View Full Dashboard"
+    - Link to download PDF report
+    - Unsubscribe link (required by email standards)
+
+────────────────────────────────────────────────────────────────────────────────
+FEATURE 8: NOTIFICATION SYSTEM
+────────────────────────────────────────────────────────────────────────────────
+
+F8.1 — In-App Notifications
+  Bell icon in topbar shows unread count (red badge)
+  Notification dropdown: last 20 notifications
+  Click notification → navigate to relevant page
+  Mark as read individually or all at once
+
+F8.2 — Notification Types
+  WASTE_ALERT:     "Campaign X is burning ₹Y/day on zero-intent keywords"
+  RULE_FIRED:      "Rule 'Pause poor keywords' paused 3 keywords"
+  AUDIT_COMPLETE:  "AI Audit found 6 optimization opportunities"
+  REPORT_READY:    "Your weekly report for Apr 14-20 is ready"
+  BUDGET_CAP:      "Spring Sale reached 90% of daily budget"
+  ROAS_DROP:       "Retargeting ROAS dropped below 2× (currently 1.8×)"
+  ACCOUNT_ERROR:   "Google Ads connection error — please reconnect"
+  APPLIED:         "Recommendation applied: 23 negative keywords added"
+
+F8.3 — Email Alerts (via Resend)
+  Triggered by automation rules with notify=true
+  Also triggered by critical alerts (ACCOUNT_ERROR, ROAS_DROP below threshold)
+  User controls: per-type email toggle in Settings
+  Rate limit: max 5 alert emails per account per day (prevent spam)
+
+================================================================================
+SECTION 10 — FRONTEND ARCHITECTURE (REACT)
+================================================================================
+
+STATE MANAGEMENT STRATEGY:
+  Redux Toolkit slices:
+    authSlice:          user, token, isAuthenticated
+    accountSlice:       selected account, accounts list, sync status
+    campaignSlice:      campaigns list, selected campaign
+    auditSlice:         current audit, audit history, recommendations
+    analyticsSlice:     metrics data, date range, comparison mode
+    notificationSlice:  notifications list, unread count
+    uiSlice:            sidebar open, loading states, active modals
+
+  RTK Query for all API calls (caching, refetching, loading states)
+  React Context for: theme, toast messages
+
+ROUTING STRUCTURE:
+  /                   → Landing page (public)
+  /login              → Login page (public)
+  /register           → Register page (public)
+  /auth/callback      → OAuth callback handler
+  /onboarding         → Onboarding flow (protected, incomplete profile)
+  /dashboard          → Main dashboard (protected)
+  /campaigns          → Campaigns list (protected)
+  /campaigns/:id      → Campaign detail (protected)
+  /keywords           → Keyword manager (protected)
+  /analytics          → Analytics page (protected)
+  /ai-optimizer       → AI audit page (protected)
+  /rules              → Automation rules list (protected)
+  /rules/new          → Rule builder (protected)
+  /rules/:id          → Rule detail / edit (protected)
+  /reports            → Reports list (protected)
+  /reports/:id        → Report detail (protected)
+  /settings           → Settings (protected)
+  /settings/account   → Account settings
+  /settings/billing   → Billing / plan
+  /settings/alerts    → Alert preferences
+
+COMPONENT ARCHITECTURE:
+  /src
+    /components
+      /layout
+        AppLayout.jsx         (sidebar + topbar + now-bar)
+        Sidebar.jsx
+        Topbar.jsx
+        NowPlayingBar.jsx
+        PageContainer.jsx
+      /ui                     (design system components)
+        Button.jsx            (pill, outlined, circle variants)
+        Card.jsx
+        Badge.jsx
+        Toggle.jsx
+        ProgressBar.jsx
+        Tooltip.jsx
+        Modal.jsx
+        Toast.jsx             (using React Hot Toast)
+        Spinner.jsx
+        Table.jsx             (sortable, virtual scroll)
+        Chart.jsx             (Recharts wrapper)
+        SearchInput.jsx
+        DateRangePicker.jsx
+      /features
+        /auth
+          LoginForm.jsx
+          RegisterForm.jsx
+          GoogleOAuthButton.jsx
+        /onboarding
+          OnboardingProgress.jsx
+          ConnectAdsStep.jsx
+          AIRulesStep.jsx
+        /dashboard
+          MetricCard.jsx
+          SpendRevenueChart.jsx
+          WasteBreakdown.jsx
+          CampaignTable.jsx
+          AIRecommendations.jsx
+        /campaigns
+          CampaignRow.jsx
+          CampaignDetailPanel.jsx
+          CampaignMetricsChart.jsx
+        /keywords
+          KeywordTable.jsx
+          NegativeKeywordFinder.jsx
+          KeywordOpportunities.jsx
+          BulkActionBar.jsx
+        /audit
+          AuditConfig.jsx
+          AuditProgress.jsx
+          AuditResults.jsx
+          RecommendationCard.jsx
+        /rules
+          RuleBuilder.jsx
+          ConditionRow.jsx
+          ActionConfig.jsx
+          ScheduleConfig.jsx
+          RuleTemplates.jsx
+          RuleExecutionLog.jsx
+        /analytics
+          PerformanceChart.jsx
+          HeatmapChart.jsx
+          DonutChart.jsx
+          AIInsightsStrip.jsx
+        /reports
+          ReportCard.jsx
+          ReportViewer.jsx
+        /notifications
+          NotificationDropdown.jsx
+          NotificationItem.jsx
+    /pages
+      (one file per route above)
+    /store
+      index.js
+      /slices
+        (one slice per feature)
+      /api
+        (RTK Query API definitions)
+    /hooks
+      useAuth.js
+      useCampaigns.js
+      useKeywords.js
+      useAudit.js
+      useNotifications.js
+      useLocalStorage.js
+    /utils
+      formatCurrency.js
+      formatDate.js
+      calculateMetrics.js
+      chartHelpers.js
+    /constants
+      routes.js
+      apiEndpoints.js
+      ruleTemplates.js
+    /assets
+      /styles
+        global.css           (Spotify design tokens as CSS variables)
+        spotify-system.css   (all base component styles)
+
+================================================================================
+SECTION 11 — BACKEND ARCHITECTURE (NODE/EXPRESS)
+================================================================================
+
+FOLDER STRUCTURE:
+  /server
+    server.js               (entry point)
+    /config
+      database.js           (MongoDB connection)
+      passport.js           (Google OAuth strategy)
+      gemini.js             (Gemini AI client setup)
+      googleAds.js          (Google Ads API client setup)
+      resend.js             (email client setup)
+    /middleware
+      auth.js               (JWT verification)
+      rateLimit.js          (express-rate-limit configs)
+      errorHandler.js       (global error handler)
+      validate.js           (Joi validation middleware)
+      asyncHandler.js       (catch async errors)
+      logger.js             (morgan + winston)
+    /models
+      User.js
+      GoogleAccount.js
+      Campaign.js
+      CampaignMetrics.js
+      Keyword.js
+      AuditResult.js
+      AutomationRule.js
+      RuleExecutionLog.js
+      Report.js
+      Notification.js
+    /routes
+      auth.routes.js
+      accounts.routes.js
+      campaigns.routes.js
+      keywords.routes.js
+      audit.routes.js
+      rules.routes.js
+      analytics.routes.js
+      reports.routes.js
+      notifications.routes.js
+      users.routes.js
+    /controllers
+      (one controller per route file)
+    /services
+      googleAds.service.js      (all Google Ads API calls)
+      gemini.service.js         (all Gemini AI calls)
+      audit.service.js          (audit orchestration)
+      sync.service.js           (data sync orchestration)
+      rules.service.js          (rule execution engine)
+      report.service.js         (report generation)
+      email.service.js          (email templates + sending)
+      pdf.service.js            (PDF generation)
+      notification.service.js   (create + deliver notifications)
+      encryption.service.js     (AES-256 for token encryption)
+      analytics.service.js      (MongoDB aggregations)
+    /jobs
+      index.js                  (node-cron setup)
+      syncJob.js                (6-hour account sync)
+      auditJob.js               (Monday AI audit)
+      rulesJob.js               (hourly/daily rule execution)
+      reportJob.js              (Monday weekly report)
+    /utils
+      apiResponse.js            (standard response formatter)
+      dateHelpers.js
+      metricCalculators.js
+      validators.js
+
+EXPRESS SERVER SETUP (server.js):
+  - helmet() for security headers
+  - cors() with allowlist: [frontend domain]
+  - express.json({ limit: '10mb' })
+  - express-rate-limit on all routes: 100 requests/15 minutes
+  - Stricter limit on auth routes: 10 requests/15 minutes
+  - morgan HTTP logging
+  - Mount all route files under /api/v1
+  - Global error handler (last middleware)
+  - Graceful shutdown on SIGTERM/SIGINT (close DB connection)
+
+================================================================================
+SECTION 12 — THIRD-PARTY INTEGRATIONS
+================================================================================
+
+────────────────────────────────────────────────────────────────────────────────
+GOOGLE ADS API INTEGRATION
+────────────────────────────────────────────────────────────────────────────────
+
+Setup requirements:
+  1. Create Google Cloud project
+  2. Enable Google Ads API
+  3. Create OAuth2 credentials (web application type)
+  4. Apply for Google Ads API developer token (takes 1-3 days)
+     Use test account first, then apply for basic access
+  5. Add authorized redirect URIs: https://api.adpilot.ai/auth/google/callback
+
+Key API services used:
+  CampaignService:          list, create, update campaigns
+  CampaignBudgetService:    update daily/total budgets
+  AdGroupService:           list ad groups
+  AdGroupCriterionService:  manage keywords (add, pause, update bids)
+  CampaignCriterionService: manage negative keywords + ad schedules
+  GoogleAdsService:         search queries (GAQL — Google Ads Query Language)
+  KeywordPlanIdeaService:   keyword suggestions + volume estimates
+
+GAQL query examples:
+  Campaign metrics:
+    SELECT campaign.id, campaign.name, campaign.status,
+           campaign_budget.amount_micros,
+           metrics.cost_micros, metrics.conversions_value,
+           metrics.impressions, metrics.clicks, metrics.ctr,
+           metrics.conversions, metrics.average_cpc
+    FROM campaign
+    WHERE segments.date DURING LAST_7_DAYS
+    AND campaign.status != 'REMOVED'
+
+  Keyword performance:
+    SELECT ad_group_criterion.keyword.text,
+           ad_group_criterion.keyword.match_type,
+           ad_group_criterion.status,
+           ad_group_criterion.cpc_bid_micros,
+           ad_group_criterion.quality_info.quality_score,
+           metrics.cost_micros, metrics.conversions,
+           metrics.clicks, metrics.impressions, metrics.ctr
+    FROM keyword_view
+    WHERE segments.date DURING LAST_7_DAYS
+    AND ad_group_criterion.status != 'REMOVED'
+
+  Search terms:
+    SELECT search_term_view.search_term,
+           search_term_view.status,
+           metrics.cost_micros, metrics.impressions,
+           metrics.clicks, metrics.conversions
+    FROM search_term_view
+    WHERE segments.date DURING LAST_30_DAYS
+    AND metrics.impressions > 0
+    ORDER BY metrics.cost_micros DESC
+    LIMIT 200
+
+RATE LIMITS (Google Ads API):
+  Requests per day: 1,000 for basic access
+  Operations per mutate: 5,000
+  Strategy: batch mutations, cache heavily, sync only diffs
+
+CURRENCY/BID NOTE:
+  Google Ads API returns bid amounts and costs in MICROS (1,000,000 = ₹1)
+  Always divide by 1,000,000 when reading
+  Always multiply by 1,000,000 when writing
+
+────────────────────────────────────────────────────────────────────────────────
+GOOGLE GEMINI AI INTEGRATION
+────────────────────────────────────────────────────────────────────────────────
+
+Setup:
+  1. Go to https://aistudio.google.com/
+  2. Create API key (free)
+  3. Use model: gemini-1.5-flash (fast, cheap, sufficient)
+  4. Free tier: 15 RPM, 1M tokens/day
+
+Implementation pattern (gemini.service.js):
+  const { GoogleGenerativeAI } = require('@google/generative-ai');
+  const genAI = new GoogleGenerativeAI(process.env.GEMINI_API_KEY);
+  const model = genAI.getGenerativeModel({ model: 'gemini-1.5-flash' });
+
+  Always instruct model to return ONLY JSON (no markdown, no preamble)
+  Parse response with try/catch, retry once on parse failure
+  Log raw response to MongoDB for debugging
+
+Token estimation per audit:
+  Input: ~800-1,200 tokens (campaign + keyword data)
+  Output: ~400-600 tokens (recommendations JSON)
+  Total per audit: ~1,500 tokens
+  With 1M tokens/day free: ~666 audits/day maximum
+
+────────────────────────────────────────────────────────────────────────────────
+RESEND EMAIL INTEGRATION
+────────────────────────────────────────────────────────────────────────────────
+
+Setup:
+  1. Create account at resend.com
+  2. Verify domain (add DNS records)
+  3. Get API key
+  4. SDK: npm install resend
+
+Email types:
+  welcome.html          → On registration
+  email-verify.html     → Email verification link
+  password-reset.html   → Password reset link
+  audit-complete.html   → AI audit finished
+  weekly-report.html    → Monday weekly report
+  alert.html            → Automation rule fired / critical alert
+
+All templates: custom HTML + inline CSS (no external dependencies)
+  Use responsive email layout (600px max-width, table-based for Outlook compat)
+  Use Spotify color system where possible (dark bg looks great in modern clients)
+
+Sending example:
+  const resend = new Resend(process.env.RESEND_API_KEY);
+  await resend.emails.send({
+    from: 'AdPilot AI <reports@adpilot.ai>',
+    to: user.email,
+    subject: 'Your Weekly Google Ads Report is Ready',
+    html: compiledHtml,
+    attachments: [{ filename: 'report.pdf', content: pdfBuffer }]
+  });
+
+────────────────────────────────────────────────────────────────────────────────
+CLOUDINARY INTEGRATION
+────────────────────────────────────────────────────────────────────────────────
+
+Usage: Store generated PDF reports
+Setup:
+  1. Create account at cloudinary.com (free: 25GB storage)
+  2. Get cloud name, API key, API secret
+  3. SDK: npm install cloudinary
+
+Upload PDF:
+  const cloudinary = require('cloudinary').v2;
+  const result = await cloudinary.uploader.upload_stream(
+    { folder: 'adpilot/reports', resource_type: 'raw', public_id: reportId },
+    callback
+  ).end(pdfBuffer);
+
+Use signed URLs with 1-hour expiry for report downloads.
+
+================================================================================
+SECTION 13 — AUTHENTICATION & SECURITY
+================================================================================
+
+JWT STRATEGY:
+  Access token:   15 minutes expiry, stored in httpOnly cookie + memory
+  Refresh token:  7 days expiry (30 days if "remember me"), stored in httpOnly cookie
+  Refresh token hash stored in MongoDB users.refreshToken field
+  On refresh: old token invalidated, new one issued (rotation)
+
+PASSWORD SECURITY:
+  bcrypt with saltRounds = 12
+  Minimum 8 characters, at least 1 number enforced at validation layer
+  Password reset: time-limited token (1 hour), single-use, bcrypt hash stored
+
+TOKEN ENCRYPTION (for Google Ads tokens):
+  Algorithm: AES-256-GCM
+  Key: derived from ENCRYPTION_KEY env var using crypto.scryptSync
+  IV: random 16 bytes generated per encryption, stored alongside cipher text
+  Implementation in /services/encryption.service.js
+
+API SECURITY:
+  helmet(): sets 11 HTTP security headers
+  cors(): restricted to frontend domain only
+  Rate limiting: 100 req/15min global, 10 req/15min on auth routes
+  Input validation: Joi schemas on all POST/PUT/PATCH bodies
+  MongoDB injection prevention: Mongoose sanitization
+  XSS prevention: sanitize-html on any user-input stored to DB
+  HTTPS only (enforced by Render.com and Vercel)
+
+GOOGLE OAUTH SCOPES:
+  Request minimal scopes needed:
+  - openid, email, profile (for login)
+  - https://www.googleapis.com/auth/adwords (for Google Ads)
+  Store consent screen explanation in OAuth app settings
+
+================================================================================
+SECTION 14 — AI ENGINE DESIGN (FULL DETAIL)
+================================================================================
+
+GEMINI SERVICE FUNCTIONS:
+
+1. generateAuditRecommendations(accountData)
+   Input: structured account data object
+   Output: { healthScore, summary, recommendations[] }
+   Model: gemini-1.5-flash
+   Temperature: 0.2 (low for consistent, reliable JSON)
+   Max output tokens: 2048
+
+2. generateWeeklyNarrative(reportData)
+   Input: { thisWeek, lastWeek, campaigns, actions }
+   Output: { executiveSummary, wins, actionItems, insights }
+   Model: gemini-1.5-flash
+   Temperature: 0.7 (higher for more natural writing)
+   Max output tokens: 1024
+
+3. generateKeywordSuggestions(existingKeywords, niche)
+   Input: top 20 performing keywords + niche description
+   Output: { suggestions: [{ text, matchType, intent, estimatedVolume }] }
+   Model: gemini-1.5-flash
+   Temperature: 0.5
+   Max output tokens: 512
+
+4. analyzeNegativeKeywords(searchTerms, campaign)
+   Input: search term report (top 50 by waste)
+   Output: { negatives: [{ term, reason, confidence }] }
+   Model: gemini-1.5-flash
+   Temperature: 0.1 (very consistent)
+   Max output tokens: 1024
+
+ERROR HANDLING FOR AI:
+  - Retry once on JSON parse failure
+  - Retry once on 429 (rate limit) with 60-second wait
+  - On failure: mark audit as failed, save error, notify user
+  - Fallback for weekly report: send report without AI narrative if Gemini fails
+  - Never block user-facing flows on AI failure
+
+PROMPT ENGINEERING BEST PRACTICES APPLIED:
+  - System prompt sets role and output format contract
+  - Always specify "return ONLY valid JSON, no markdown, no preamble"
+  - Include schema of expected output in system prompt
+  - Provide examples of correct output format (1-2 examples)
+  - Limit input data size: max 50 keywords, max 20 search terms per call
+  - If account has more, sort by highest spend and take top N
+
+================================================================================
+SECTION 15 — AUTOMATION RULES ENGINE (FULL DETAIL)
+================================================================================
+
+CRON JOB ARCHITECTURE (jobs/index.js):
+
+  const cron = require('node-cron');
+
+  // HOURLY: execute hourly-schedule rules
+  cron.schedule('0 * * * *', () => rulesJob.execute('hourly'));
+
+  // DAILY: 9:00 AM IST = 3:30 AM UTC
+  cron.schedule('30 3 * * *', async () => {
+    await syncJob.incrementalSync();
+    await rulesJob.execute('daily');
+  });
+
+  // WEEKLY: Monday 9:00 AM IST = 3:30 AM UTC
+  cron.schedule('30 3 * * 1', async () => {
+    await syncJob.fullSync();
+    await auditJob.runScheduledAudits();
+    await reportJob.generateWeeklyReports();
+    await rulesJob.execute('weekly');
+  });
+
+  // SUNDAY: Full sync at 2:00 AM IST = 8:30 PM UTC Saturday
+  cron.schedule('30 20 * * 0', () => syncJob.fullSync());
+
+RULE EXECUTION FUNCTION (rules.service.js):
+
+  async function executeRule(rule) {
+    const account = await GoogleAccount.findById(rule.accountId);
+    const tokens = decryptTokens(account);
+    await refreshTokensIfNeeded(account, tokens);
+
+    // fetch relevant entities based on scope
+    const entities = await fetchEntitiesForScope(rule.scope, account);
+
+    const matched = [];
+    for (const entity of entities) {
+      const meetsConditions = evaluateConditions(
+        rule.conditions,
+        rule.conditionLogic,
+        entity
+      );
+      if (meetsConditions) matched.push(entity);
+    }
+
+    const results = [];
+    for (const entity of matched) {
+      const result = await executeAction(rule.action, entity, account, tokens);
+      results.push(result);
+    }
+
+    await saveExecutionLog(rule, entities.length, matched.length, results);
+
+    if (rule.notification.notifyOnFire && matched.length > 0) {
+      await createNotification(rule, results);
+      if (rule.notification.email) {
+        await sendAlertEmail(rule, results);
+      }
+    }
+  }
+
+CONDITION EVALUATOR:
+  function evaluateCondition(condition, entityMetrics) {
+    const value = entityMetrics[condition.metric][condition.timeWindow];
+    switch(condition.operator) {
+      case 'gt':  return value > condition.value;
+      case 'lt':  return value < condition.value;
+      case 'gte': return value >= condition.value;
+      case 'lte': return value <= condition.value;
+      case 'eq':  return value === condition.value;
+      case 'neq': return value !== condition.value;
+    }
+  }
+
+================================================================================
+SECTION 16 — EMAIL & NOTIFICATION SYSTEM
+================================================================================
+
+EMAIL QUEUE STRATEGY:
+  No Redis/Bull on free tier. Use in-process queue:
+  - Maintain in-memory array of pending emails
+  - Process max 10 emails per minute (Resend free limit: 100/day)
+  - On server restart: check Notification collection for unsent emails
+
+EMAIL TEMPLATES:
+  All stored as .html files in /server/templates/emails/
+  Use template literals for variable substitution (no template engine)
+  Each template: self-contained with inline CSS
+
+  Templates list:
+    welcome.html            Subject: "Welcome to AdPilot AI ⚡"
+    verify-email.html       Subject: "Verify your email"
+    password-reset.html     Subject: "Reset your AdPilot AI password"
+    audit-complete.html     Subject: "✦ AI found X optimization opportunities"
+    weekly-report.html      Subject: "Your week in Google Ads: April 14-20"
+    rule-fired.html         Subject: "Automation rule fired: [rule name]"
+    waste-alert.html        Subject: "⚠️ [Campaign] is wasting ₹X/day"
+    roas-drop.html          Subject: "⚠️ ROAS dropped below your threshold"
+
+NOTIFICATION CREATION:
+  notification.service.js has createNotification(type, userId, data) function
+  Saves to MongoDB Notifications collection
+  Triggers server-sent event to connected frontend (if user is online)
+  Frontend polls /notifications every 30 seconds as fallback
+
+================================================================================
+SECTION 17 — DEPLOYMENT & DEVOPS (FREE TIER)
+================================================================================
+
+FRONTEND (Vercel):
+  Build command:    npm run build
+  Output dir:       dist/ (Vite) or build/ (CRA)
+  Environment vars: VITE_API_URL, VITE_POSTHOG_KEY, VITE_SENTRY_DSN
+  Auto-deploy:      on push to main branch via GitHub Actions
+  Preview deploys:  on every pull request
+
+BACKEND (Render.com):
+  Service type:     Web Service (free tier)
+  Environment:      Node.js
+  Build command:    npm install
+  Start command:    node server.js
+  Auto-deploy:      on push to main branch
+  Free tier limits: 750 hours/month, 512MB RAM, spins down after 15min idle
+  Solution:         Use UptimeRobot (free) to ping /health every 5 min
+
+  NOTE on free tier spin-down: First request after idle takes 30-50 seconds.
+  Add a loading state on the frontend for slow first loads.
+  Health endpoint: GET /health → { status: 'ok', timestamp, version }
+
+DATABASE (MongoDB Atlas):
+  Cluster:      M0 free tier (512MB, shared)
+  Region:       AWS Mumbai (ap-south-1) — closest to India
+  Connection:   Use connection pooling (mongoose default: 5 connections)
+  Indexes:
+    users:              email (unique), googleId (unique)
+    google_accounts:    userId
+    campaigns:          accountId, googleCampaignId
+    campaign_metrics:   campaignId + date (compound), accountId
+    keywords:           campaignId, accountId, aiTag
+    audit_results:      userId, accountId, createdAt
+    automation_rules:   userId, accountId, isActive
+    notifications:      userId + isRead, createdAt
+  Backup: Atlas free tier has no automated backup — export weekly to local
+
+CI/CD (GitHub Actions):
+  .github/workflows/deploy.yml:
+    on: push to main
+    jobs:
+      test: run npm test
+      lint: run npm run lint
+      deploy-frontend: trigger Vercel deploy (via API)
+      deploy-backend: Render auto-detects push to main
+
+MONITORING:
+  Sentry: configured in both server.js and React main entry
+  UptimeRobot: ping /health endpoint every 5 minutes
+  Winston logs: stored to /logs/error.log and /logs/combined.log
+  Morgan: HTTP request logs in development
+
+ENVIRONMENT: separate .env for development, staging, production
+
+================================================================================
+SECTION 18 — ENVIRONMENT VARIABLES REFERENCE
+================================================================================
+
+BACKEND (.env):
+  # Server
+  NODE_ENV=production
+  PORT=5000
+  FRONTEND_URL=https://adpilot.ai
+
+  # MongoDB
+  MONGODB_URI=mongodb+srv://user:pass@cluster.mongodb.net/adpilot
+
+  # JWT
+  JWT_SECRET=<64-char random string>
+  JWT_ACCESS_EXPIRY=15m
+  JWT_REFRESH_EXPIRY=7d
+  JWT_REFRESH_EXPIRY_REMEMBER=30d
+
+  # Google OAuth
+  GOOGLE_CLIENT_ID=<from Google Cloud Console>
+  GOOGLE_CLIENT_SECRET=<from Google Cloud Console>
+  GOOGLE_CALLBACK_URL=https://api.adpilot.ai/api/v1/auth/google/callback
+
+  # Google Ads API
+  GOOGLE_ADS_DEVELOPER_TOKEN=<from Google Ads API Center>
+  GOOGLE_ADS_CLIENT_ID=<same as GOOGLE_CLIENT_ID>
+  GOOGLE_ADS_CLIENT_SECRET=<same as GOOGLE_CLIENT_SECRET>
+
+  # Gemini AI
+  GEMINI_API_KEY=<from Google AI Studio>
+
+  # Resend Email
+  RESEND_API_KEY=<from Resend dashboard>
+  EMAIL_FROM=AdPilot AI <reports@adpilot.ai>
+
+  # Cloudinary
+  CLOUDINARY_CLOUD_NAME=<your cloud name>
+  CLOUDINARY_API_KEY=<your api key>
+  CLOUDINARY_API_SECRET=<your api secret>
+
+  # Encryption (for Google Ads tokens)
+  ENCRYPTION_KEY=<32-char random string>
+
+  # PostHog
+  POSTHOG_API_KEY=<from PostHog dashboard>
+  POSTHOG_HOST=https://app.posthog.com
+
+  # Sentry
+  SENTRY_DSN=<from Sentry dashboard>
+
+FRONTEND (.env or .env.local):
+  VITE_API_URL=https://api.adpilot.ai/api/v1
+  VITE_GOOGLE_CLIENT_ID=<same as backend>
+  VITE_POSTHOG_KEY=<from PostHog dashboard>
+  VITE_SENTRY_DSN=<from Sentry dashboard>
+  VITE_ENVIRONMENT=production
+
+================================================================================
+SECTION 19 — DEVELOPMENT PHASES & MILESTONES
+================================================================================
+
+PHASE 0 — SETUP & FOUNDATIONS (Week 1, ~20 hours)
+  ✦ Initialize React app with Vite
+  ✦ Initialize Express server
+  ✦ Set up MongoDB Atlas cluster and Mongoose connection
+  ✦ Configure GitHub repository with monorepo structure:
+      /client  (React)
+      /server  (Express)
+  ✦ Implement Spotify design system CSS variables and base components
+  ✦ Set up Sentry, PostHog
+  ✦ Deploy skeleton to Vercel + Render
+
+PHASE 1 — AUTHENTICATION (Week 2, ~25 hours)
+  ✦ User model + routes + controllers
+  ✦ Email/password registration with email verification (Resend)
+  ✦ JWT access + refresh token system
+  ✦ Google OAuth2 via Passport.js
+  ✦ Login, Register, Forgot Password pages (Spotify design)
+  ✦ Auth middleware (protect routes)
+  ✦ Protected routes in React (redirect to /login if unauthenticated)
+
+PHASE 2 — GOOGLE ADS CONNECTION (Week 3, ~30 hours)
+  ✦ Google Ads OAuth flow (scopes: adwords)
+  ✦ Token encryption/decryption service
+  ✦ Google Ads API client setup (google-ads-api package)
+  ✦ Initial data sync (campaigns, keywords, 90-day metrics)
+  ✦ Sync progress polling endpoint + frontend progress UI
+  ✦ Account settings page (view, disconnect)
+  ✦ Error handling: token refresh, API errors, insufficient permissions
+
+PHASE 3 — DASHBOARD & ANALYTICS (Week 4-5, ~40 hours)
+  ✦ campaign_metrics collection + MongoDB aggregation pipelines
+  ✦ Analytics API routes (overview, trends, heatmap)
+  ✦ Dashboard page: all KPI cards, Spend vs Revenue chart
+  ✦ Wasted Spend breakdown panel
+  ✦ Campaign health table
+  ✦ Analytics page: all charts, date range picker, comparison mode
+  ✦ Recharts integration
+
+PHASE 4 — AI AUDIT ENGINE (Week 6-7, ~35 hours)
+  ✦ Gemini AI service (all 4 functions)
+  ✦ Audit orchestration service
+  ✦ AuditResult model + audit routes + controllers
+  ✦ Async audit with polling (jobId pattern)
+  ✦ AI Optimizer page: config panel + results panel
+  ✦ Recommendation cards with Apply/Dismiss
+  ✦ Apply recommendation → Google Ads API execution
+  ✦ Account health score calculation
+  ✦ Monday scheduled audit (node-cron)
+
+PHASE 5 — KEYWORD MANAGER (Week 8, ~25 hours)
+  ✦ Keyword model with AI tags
+  ✦ Keyword API routes
+  ✦ Keyword table with filters, sort, virtual scroll
+  ✦ Bulk action bar
+  ✦ Negative keyword finder (search terms → Gemini → add to Google Ads)
+  ✦ Keyword opportunity finder
+
+PHASE 6 — AUTOMATION RULES ENGINE (Week 9-10, ~35 hours)
+  ✦ AutomationRule model + RuleExecutionLog model
+  ✦ Rules API routes
+  ✦ Rule execution engine (conditions evaluator + action executor)
+  ✦ node-cron job for hourly/daily/weekly rules
+  ✦ Rule builder UI (IF→THEN visual interface)
+  ✦ Rule templates (6 pre-built templates)
+  ✦ Rule simulation feature
+  ✦ Execution logs page
+
+PHASE 7 — NOTIFICATIONS & ALERTS (Week 11, ~20 hours)
+  ✦ Notification model + routes
+  ✦ Notification creation in all relevant services
+  ✦ Bell icon + unread count in topbar
+  ✦ Notification dropdown UI
+  ✦ Alert email templates (Resend)
+  ✦ User notification preferences in Settings
+
+PHASE 8 — WEEKLY REPORTS (Week 12, ~20 hours)
+  ✦ Report model + routes
+  ✦ PDF generation service (jsPDF)
+  ✦ Cloudinary upload service
+  ✦ Weekly report email template
+  ✦ Monday 9 AM cron job for report generation
+  ✦ Reports list page + report detail page
+  ✦ Manual report generation trigger
+
+PHASE 9 — SETTINGS & BILLING (Week 13, ~15 hours)
+  ✦ Settings pages: profile, Google Ads, notifications, billing
+  ✦ Plan enforcement middleware (check plan limits before API calls)
+  ✦ Upgrade prompt UI for free tier limits
+  ✦ Account deletion (GDPR compliance)
+
+PHASE 10 — POLISH & LAUNCH (Week 14, ~25 hours)
+  ✦ Landing page (public marketing page)
+  ✦ Onboarding flow refinement
+  ✦ Error states and empty states for all pages
+  ✦ Loading skeletons for all data tables
+  ✦ Mobile responsive fixes
+  ✦ Performance audit (Lighthouse > 85)
+  ✦ Full end-to-end testing
+  ✦ SEO meta tags
+  ✦ Privacy policy + Terms of Service pages
+  ✦ Product Hunt launch prep
+
+TOTAL ESTIMATED DEVELOPMENT TIME: ~290 hours (solo developer, ~10 weeks full-time)
+
+================================================================================
+SECTION 20 — TESTING STRATEGY
+================================================================================
+
+UNIT TESTS (Jest):
+  /server/tests/unit/
+    services/gemini.service.test.js         (mock Gemini API)
+    services/rules.service.test.js          (condition evaluator)
+    services/encryption.service.test.js     (encrypt/decrypt roundtrip)
+    utils/metricCalculators.test.js         (ROAS, CPA, health score)
+    utils/dateHelpers.test.js
+
+INTEGRATION TESTS (Jest + Supertest):
+  /server/tests/integration/
+    auth.routes.test.js                     (register, login, OAuth flow)
+    campaigns.routes.test.js                (CRUD + Google Ads mock)
+    audit.routes.test.js                    (full audit flow with mocks)
+    rules.routes.test.js                    (create, simulate, execute)
+
+FRONTEND TESTS (Vitest + Testing Library):
+  /client/src/tests/
+    components/RuleBuilder.test.jsx
+    components/RecommendationCard.test.jsx
+    hooks/useAudit.test.js
+    utils/formatCurrency.test.js
+
+E2E TESTS (Playwright — free):
+  /e2e/
+    auth.spec.js              (signup → verify email → login)
+    connect-ads.spec.js       (connect Google Ads account)
+    run-audit.spec.js         (trigger audit → wait → view results)
+    apply-recommendation.spec.js
+    create-rule.spec.js
+
+MOCK STRATEGY:
+  Google Ads API: Mock with sample response fixtures in /tests/fixtures/
+  Gemini AI: Mock with realistic JSON responses
+  Resend: Mock email sending (just log, don't send in tests)
+  MongoDB: Use mongodb-memory-server for integration tests
+
+================================================================================
+SECTION 21 — PERFORMANCE REQUIREMENTS
+================================================================================
+
+RESPONSE TIME TARGETS:
+  Dashboard load (cached):       < 500ms
+  Dashboard load (first load):   < 2 seconds
+  Audit initiation:              < 200ms (async, returns jobId)
+  Audit completion:              < 180 seconds
+  Recommendation apply:          < 5 seconds
+  Rule execution (per rule):     < 30 seconds
+  Weekly report generation:      < 120 seconds
+  Page navigation:               < 100ms (client-side routing)
+
+CACHING STRATEGY:
+  Campaign metrics:    Cache in-memory for 30 minutes (node-cache)
+  Keywords list:       Cache in-memory for 30 minutes
+  Analytics data:      Cache aggregation results for 1 hour
+  Audit results:       No cache (always fresh from MongoDB)
+  Cache invalidation:  On data sync completion, clear relevant caches
+
+DATABASE PERFORMANCE:
+  All indexes defined in Section 7
+  Use projection (select only needed fields) in all queries
+  Use .lean() in Mongoose for read-only queries (2-3x faster)
+  Pagination on all list endpoints (max 100 items per page)
+  MongoDB aggregation for analytics (not application-level calculation)
+
+GOOGLE ADS API EFFICIENCY:
+  Batch all mutations in single calls
+  Never call API per-keyword (always per-adgroup or per-campaign batch)
+  Cache account structure (campaigns/ad groups) for 6 hours
+  Only sync metrics data during scheduled sync jobs, not on every request
+
+================================================================================
+SECTION 22 — ERROR HANDLING STANDARDS
+================================================================================
+
+HTTP STATUS CODES:
+  200: Success
+  201: Created
+  400: Bad Request (validation error)
+  401: Unauthorized (invalid/expired token)
+  403: Forbidden (insufficient plan or permissions)
+  404: Not Found
+  409: Conflict (e.g. duplicate email)
+  429: Too Many Requests (rate limit)
+  500: Internal Server Error
+  503: Service Unavailable (Google Ads API down)
+
+ERROR RESPONSE FORMAT:
+  {
+    "success": false,
+    "error": {
+      "code": "GOOGLE_ADS_TOKEN_EXPIRED",
+      "message": "Your Google Ads connection has expired. Please reconnect.",
+      "details": {}  // additional context (dev only in non-production)
+    }
+  }
+
+ERROR CODES (custom):
+  AUTH_001:         Invalid credentials
+  AUTH_002:         Token expired
+  AUTH_003:         Email not verified
+  AUTH_004:         Account locked (5 failed login attempts)
+  ACCOUNT_001:      Google Ads connection failed
+  ACCOUNT_002:      Insufficient permissions
+  ACCOUNT_003:      Token refresh failed
+  ACCOUNT_004:      Account sync failed
+  AUDIT_001:        Gemini AI unavailable
+  AUDIT_002:        Insufficient data for audit (< 7 days of history)
+  AUDIT_003:        Audit already running for this account
+  RULES_001:        Rule condition configuration invalid
+  RULES_002:        Rule action execution failed
+  PLAN_001:         Free tier limit reached
+  VALIDATION_001:   Request body validation failed
+
+FRONTEND ERROR HANDLING:
+  RTK Query: use isError + error states in components
+  Axios interceptor: catch 401 → refresh token → retry request
+  Global error boundary in React: catch unhandled errors → show fallback UI
+  Toast messages for user-facing errors (non-blocking)
+  Full-page error state only for critical failures (account disconnected, etc.)
+
+GOOGLE ADS API ERRORS:
+  INVALID_CUSTOMER_ID:   Show "Invalid Customer ID" message in UI
+  CUSTOMER_NOT_FOUND:    Show reconnect prompt
+  NOT_AUTHORIZED:        Show permissions explanation
+  QUOTA_EXCEEDED:        Queue request for next day, notify user
+  RESOURCE_EXHAUSTED:    Retry with exponential backoff (1s, 2s, 4s, 8s)
+
+================================================================================
+SECTION 23 — FILE & FOLDER STRUCTURE
+================================================================================
+
+adpilot-ai/
+├── .github/
+│   └── workflows/
+│       └── deploy.yml
+├── client/                            ← React frontend
+│   ├── public/
+│   │   └── favicon.svg
+│   ├── src/
+│   │   ├── main.jsx
+│   │   ├── App.jsx
+│   │   ├── components/
+│   │   │   ├── layout/
+│   │   │   ├── ui/
+│   │   │   └── features/
+│   │   ├── pages/
+│   │   ├── store/
+│   │   │   ├── index.js
+│   │   │   ├── slices/
+│   │   │   └── api/
+│   │   ├── hooks/
+│   │   ├── utils/
+│   │   ├── constants/
+│   │   └── assets/
+│   │       └── styles/
+│   │           ├── global.css
+│   │           └── spotify-system.css
+│   ├── index.html
+│   ├── vite.config.js
+│   └── package.json
+├── server/                            ← Express backend
+│   ├── server.js
+│   ├── config/
+│   ├── middleware/
+│   ├── models/
+│   ├── routes/
+│   ├── controllers/
+│   ├── services/
+│   ├── jobs/
+│   ├── templates/
+│   │   └── emails/
+│   ├── utils/
+│   ├── tests/
+│   │   ├── unit/
+│   │   ├── integration/
+│   │   └── fixtures/
+│   └── package.json
+├── e2e/                               ← Playwright tests
+├── .env.example
+├── .gitignore
+├── README.md
+└── package.json                       ← Root (scripts for both)
+
+ROOT package.json scripts:
+  "dev":         "concurrently \"npm --prefix server run dev\" \"npm --prefix client run dev\""
+  "build":       "npm --prefix client run build && npm --prefix server run build"
+  "test":        "npm --prefix server test && npm --prefix client test"
+  "test:e2e":    "npx playwright test"
+  "lint":        "npm --prefix client run lint && npm --prefix server run lint"
+
+================================================================================
+SECTION 24 — ACCEPTANCE CRITERIA
+================================================================================
+
+The product is considered ready for launch when ALL of the following pass:
+
+AUTHENTICATION:
+  ✓ User can register with email and password
+  ✓ Verification email is received within 60 seconds
+  ✓ User can login with Google OAuth in < 5 clicks
+  ✓ JWT tokens expire and refresh correctly
+  ✓ Forgot password flow works end-to-end
+
+GOOGLE ADS CONNECTION:
+  ✓ User can connect a Google Ads account via OAuth in < 2 minutes
+  ✓ Initial data sync completes for a 500-keyword account in < 3 minutes
+  ✓ Expired tokens are refreshed automatically without user action
+  ✓ Account disconnection revokes access cleanly
+
+DASHBOARD:
+  ✓ Dashboard loads with real Google Ads data in < 2 seconds
+  ✓ All 5 KPI cards show correct values matching Google Ads UI
+  ✓ Date range selector changes all metric values correctly
+  ✓ Bar chart shows correct spend and revenue per day
+  ✓ Wasted spend breakdown adds up to total correctly
+
+AI AUDIT:
+  ✓ AI Audit completes in < 3 minutes for a standard account
+  ✓ All recommendations are specific (not generic advice)
+  ✓ "Apply Now" on a recommendation executes and reflects in Google Ads UI
+  ✓ Dismissed recommendations don't reappear in next audit
+  ✓ Monday scheduled audit runs and sends notification
+  ✓ Gemini API failure is handled gracefully (error shown, no crash)
+
+AUTOMATION RULES:
+  ✓ User can create a rule with 2 conditions using visual builder
+  ✓ Rule simulation shows accurate preview of affected entities
+  ✓ Active rules execute on schedule without manual trigger
+  ✓ Rule execution log shows what changed (entity, old value, new value)
+  ✓ Toggling rule off stops future executions
+  ✓ Email notification sent when a rule fires with notify=true
+
+KEYWORD MANAGER:
+  ✓ All keywords load with correct metrics
+  ✓ AI tags are assigned correctly (top performer, wasting, etc.)
+  ✓ Negative keyword finder returns relevant suggestions from search terms
+  ✓ Adding negative keywords via UI reflects in Google Ads within 5 minutes
+  ✓ Bulk pause action pauses all selected keywords
+
+WEEKLY REPORT:
+  ✓ PDF generates correctly with all data and AI narrative
+  ✓ Email is received on Monday morning with PDF attachment
+  ✓ Report page shows list of past reports with download links
+  ✓ Manual report generation works on demand
+  ✓ AI narrative is coherent and specific to the account's data
+
+NOTIFICATIONS:
+  ✓ Waste alert notification created when waste > threshold
+  ✓ Unread count shows in topbar correctly
+  ✓ Clicking notification navigates to correct page
+  ✓ Alert email received within 5 minutes of trigger event
+
+PERFORMANCE:
+  ✓ Lighthouse score > 85 on desktop and > 70 on mobile
+  ✓ Dashboard loads < 2 seconds on 4G connection
+  ✓ No memory leaks (no increasing memory on repeated navigation)
+  ✓ API response time < 500ms for all cached endpoints
+
+SECURITY:
+  ✓ Google Ads tokens encrypted at rest in MongoDB
+  ✓ Cannot access other users' data (test with 2 accounts)
+  ✓ Rate limiting blocks 100+ req/min from same IP
+  ✓ All API routes return 401 without valid token
+
+================================================================================
+END OF PRD — AdPilot AI v1.0
+================================================================================
+Document owned by: Product Team
+Last updated:       April 22, 2026
+Next review:        Before Phase 6 kickoff
+================================================================================
