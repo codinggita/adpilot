@@ -1,0 +1,421 @@
+<!DOCTYPE html>
+
+<html class="dark" lang="en">
+
+<head>
+    <meta charset="utf-8" />
+    <meta content="width=device-width, initial-scale=1.0" name="viewport" />
+    <title>Settings &amp; Integrations - AdPilot AI</title>
+    <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&amp;family=Inter:wght@400;500&amp;family=Source+Code+Pro:wght@500&amp;display=swap"
+        rel="stylesheet" />
+    <link
+        href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap"
+        rel="stylesheet" />
+    <link
+        href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap"
+        rel="stylesheet" />
+    <script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    "colors": {
+                        "primary-fixed-dim": "#cfbcff",
+                        "tertiary-fixed-dim": "#e7c365",
+                        "primary": "#cfbcff",
+                        "on-background": "#e6e0e9",
+                        "surface-variant": "#36343a",
+                        "surface-bright": "#3b383e",
+                        "surface-container-high": "#2b292f",
+                        "on-primary-fixed-variant": "#4f378a",
+                        "on-secondary-fixed-variant": "#4b4263",
+                        "tertiary-container": "#c9a74d",
+                        "tertiary": "#e7c365",
+                        "on-tertiary-fixed-variant": "#594400",
+                        "outline": "#948e9c",
+                        "surface-container": "#211f24",
+                        "on-primary": "#381e72",
+                        "background": "#141218",
+                        "secondary": "#cdc0e9",
+                        "tertiary-fixed": "#ffdf93",
+                        "surface-container-highest": "#36343a",
+                        "on-secondary-fixed": "#1f1635",
+                        "inverse-surface": "#e6e0e9",
+                        "inverse-primary": "#6750a4",
+                        "surface-container-low": "#1d1b20",
+                        "on-secondary-container": "#bfb2da",
+                        "secondary-fixed-dim": "#cdc0e9",
+                        "primary-fixed": "#e9ddff",
+                        "error": "#ffb4ab",
+                        "on-tertiary-fixed": "#241a00",
+                        "on-surface": "#e6e0e9",
+                        "outline-variant": "#494551",
+                        "on-error-container": "#ffdad6",
+                        "inverse-on-surface": "#322f35",
+                        "on-error": "#690005",
+                        "on-tertiary-container": "#503d00",
+                        "error-container": "#93000a",
+                        "secondary-container": "#4d4465",
+                        "on-tertiary": "#3e2e00",
+                        "on-surface-variant": "#cbc4d2",
+                        "surface-container-lowest": "#0f0d13",
+                        "on-primary-container": "#e0d2ff",
+                        "surface-tint": "#cfbcff",
+                        "surface-dim": "#141218",
+                        "surface": "#141218",
+                        "secondary-fixed": "#e9ddff",
+                        "primary-container": "#6750a4",
+                        "on-secondary": "#342b4b",
+                        "on-primary-fixed": "#22005d",
+                        "brand-green": "#3ECF8E"
+                    },
+                    "borderRadius": {
+                        "DEFAULT": "0.25rem",
+                        "lg": "0.5rem",
+                        "xl": "0.75rem",
+                        "full": "9999px"
+                    },
+                    "spacing": {
+                        "xs": "4px",
+                        "base": "4px",
+                        "md": "16px",
+                        "sm": "8px",
+                        "lg": "24px",
+                        "gutter": "24px",
+                        "container-max": "1280px",
+                        "xl": "48px"
+                    },
+                    "fontFamily": {
+                        "hero-headline": ["Plus Jakarta Sans"],
+                        "label-caps": ["Source Code Pro"],
+                        "body-md": ["Inter"],
+                        "body-lg": ["Inter"],
+                        "h1": ["Plus Jakarta Sans"],
+                        "h2": ["Plus Jakarta Sans"]
+                    },
+                    "fontSize": {
+                        "hero-headline": ["72px", { "lineHeight": "1.00", "letterSpacing": "-0.04em", "fontWeight": "400" }],
+                        "label-caps": ["12px", { "lineHeight": "1.0", "letterSpacing": "1.2px", "fontWeight": "500" }],
+                        "body-md": ["14px", { "lineHeight": "1.5", "fontWeight": "400" }],
+                        "body-lg": ["18px", { "lineHeight": "1.5", "fontWeight": "400" }],
+                        "h1": ["40px", { "lineHeight": "1.2", "fontWeight": "400" }],
+                        "h2": ["32px", { "lineHeight": "1.3", "fontWeight": "400" }]
+                    }
+                }
+            }
+        }
+    </script>
+    <style>
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+        }
+
+        /* Custom scrollbar for dark mode */
+        ::-webkit-scrollbar {
+            width: 8px;
+            height: 8px;
+        }
+
+        ::-webkit-scrollbar-track {
+            background: transparent;
+        }
+
+        ::-webkit-scrollbar-thumb {
+            background: #36343a;
+            border-radius: 4px;
+        }
+
+        ::-webkit-scrollbar-thumb:hover {
+            background: #494551;
+        }
+    </style>
+</head>
+
+<body class="bg-background text-on-background font-body-md text-body-md h-screen flex overflow-hidden">
+    <!-- SideNavBar (Shared Component) -->
+    <nav
+        class="bg-[#0f0f0f] dark:bg-[#0f0f0f] fixed left-0 top-0 h-full w-64 border-r border-zinc-800 flat no shadows flex flex-col py-6 px-4 gap-2 z-40 hidden md:flex font-['Plus_Jakarta_Sans'] text-sm tracking-normal">
+        <div class="mb-8 px-2">
+            <h1 class="text-lg font-black text-white">AdPilot AI</h1>
+            <p class="text-zinc-500 text-xs mt-1">Enterprise Console</p>
+        </div>
+        <div class="flex-1 flex flex-col gap-1">
+            <a class="flex items-center gap-3 px-3 py-2 text-zinc-500 hover:bg-zinc-900 hover:text-zinc-200 transition-colors duration-200 rounded-lg"
+                href="#">
+                <span class="material-symbols-outlined text-[20px]">grid_view</span>
+                Dashboard
+            </a>
+            <a class="flex items-center gap-3 px-3 py-2 text-zinc-500 hover:bg-zinc-900 hover:text-zinc-200 transition-colors duration-200 rounded-lg"
+                href="#">
+                <span class="material-symbols-outlined text-[20px]">ads_click</span>
+                Campaigns
+            </a>
+            <a class="flex items-center gap-3 px-3 py-2 text-zinc-500 hover:bg-zinc-900 hover:text-zinc-200 transition-colors duration-200 rounded-lg"
+                href="#">
+                <span class="material-symbols-outlined text-[20px]">auto_fix_high</span>
+                Automation
+            </a>
+            <a class="flex items-center gap-3 px-3 py-2 text-zinc-500 hover:bg-zinc-900 hover:text-zinc-200 transition-colors duration-200 rounded-lg"
+                href="#">
+                <span class="material-symbols-outlined text-[20px]">insights</span>
+                Analytics
+            </a>
+            <a class="flex items-center gap-3 px-3 py-2 text-zinc-500 hover:bg-zinc-900 hover:text-zinc-200 transition-colors duration-200 rounded-lg"
+                href="#">
+                <span class="material-symbols-outlined text-[20px]">description</span>
+                Reports
+            </a>
+        </div>
+        <div class="mt-auto flex flex-col gap-1 border-t border-zinc-800 pt-4">
+            <a class="flex items-center gap-3 px-3 py-2 text-[#3ECF8E] bg-[#3ECF8E]/10 rounded-lg font-bold transition-colors duration-200"
+                href="#">
+                <span class="material-symbols-outlined text-[20px]"
+                    style="font-variation-settings: 'FILL' 1;">settings</span>
+                Settings
+            </a>
+            <a class="flex items-center gap-3 px-3 py-2 text-zinc-500 hover:bg-zinc-900 hover:text-zinc-200 transition-colors duration-200 rounded-lg"
+                href="#">
+                <span class="material-symbols-outlined text-[20px]">contact_support</span>
+                Support
+            </a>
+        </div>
+    </nav>
+    <!-- Main Content Wrapper -->
+    <div class="flex-1 flex flex-col md:ml-64 h-full relative">
+        <!-- TopAppBar (Shared Component) -->
+        <header
+            class="bg-[#171717] dark:bg-[#171717] docked full-width top-0 h-16 border-b border-zinc-800 flat no shadows flex justify-between items-center px-6 w-full sticky z-50">
+            <div class="flex items-center gap-4">
+                <span class="text-xl font-bold text-[#3ECF8E] tracking-tighter md:hidden">AdPilot AI</span>
+                <div class="relative hidden md:block w-64">
+                    <span
+                        class="material-symbols-outlined absolute left-3 top-1/2 -translate-y-1/2 text-zinc-400 text-sm">search</span>
+                    <input
+                        class="w-full bg-[#0f0f0f] border border-zinc-800 rounded-lg py-1.5 pl-9 pr-4 font-['Plus_Jakarta_Sans'] text-sm text-zinc-400 focus:outline-none focus:border-[#3ECF8E] transition-colors"
+                        placeholder="Search..." type="text" />
+                </div>
+            </div>
+            <div class="flex items-center gap-4">
+                <button
+                    class="text-zinc-400 hover:text-white hover:bg-zinc-800/50 transition-all p-2 rounded-full flex items-center justify-center">
+                    <span class="material-symbols-outlined text-[20px]">notifications</span>
+                </button>
+                <button
+                    class="text-zinc-400 hover:text-white hover:bg-zinc-800/50 transition-all p-2 rounded-full flex items-center justify-center">
+                    <span class="material-symbols-outlined text-[20px]">help_outline</span>
+                </button>
+                <button
+                    class="text-zinc-400 hover:text-white hover:bg-zinc-800/50 transition-all p-2 rounded-full flex items-center justify-center">
+                    <span class="material-symbols-outlined text-[20px]">account_circle</span>
+                </button>
+                <button
+                    class="bg-[#3ECF8E] text-[#171717] font-['Plus_Jakarta_Sans'] text-sm font-medium tracking-tight px-4 py-2 rounded-full hover:bg-[#3ECF8E]/90 scale-95 duration-150 ease-in-out">
+                    Create Campaign
+                </button>
+            </div>
+        </header>
+        <!-- Page Canvas -->
+        <main class="flex-1 overflow-auto bg-[#171717]">
+            <div class="max-w-container-max mx-auto p-gutter flex flex-col md:flex-row gap-gutter h-full">
+                <!-- Inner Layout: 200px Left Settings Nav -->
+                <aside class="w-full md:w-[200px] flex-shrink-0 flex flex-col gap-2">
+                    <h2 class="font-h2 text-h2 text-on-surface mb-md">Settings</h2>
+                    <nav class="flex flex-col gap-1">
+                        <button
+                            class="flex items-center gap-3 px-3 py-2 text-on-surface-variant hover:text-on-surface hover:bg-surface-container rounded-lg transition-colors text-left font-body-md text-body-md">
+                            General
+                        </button>
+                        <button
+                            class="flex items-center gap-3 px-3 py-2 bg-surface-container text-on-surface rounded-lg font-medium text-left font-body-md text-body-md shadow-[inset_2px_0_0_0_#3ECF8E]">
+                            Integrations
+                        </button>
+                        <button
+                            class="flex items-center gap-3 px-3 py-2 text-on-surface-variant hover:text-on-surface hover:bg-surface-container rounded-lg transition-colors text-left font-body-md text-body-md">
+                            AI Preferences
+                        </button>
+                        <button
+                            class="flex items-center gap-3 px-3 py-2 text-on-surface-variant hover:text-on-surface hover:bg-surface-container rounded-lg transition-colors text-left font-body-md text-body-md">
+                            Team &amp; Access
+                        </button>
+                        <button
+                            class="flex items-center gap-3 px-3 py-2 text-on-surface-variant hover:text-on-surface hover:bg-surface-container rounded-lg transition-colors text-left font-body-md text-body-md">
+                            Billing
+                        </button>
+                    </nav>
+                </aside>
+                <!-- Inner Layout: Flex Right Content -->
+                <div class="flex-1 flex flex-col gap-lg max-w-4xl">
+                    <!-- Section Header -->
+                    <div class="flex flex-col gap-sm">
+                        <h3 class="font-h2 text-[24px] font-semibold text-on-surface">Connections &amp; Sync</h3>
+                        <p class="font-body-md text-body-md text-on-surface-variant">Manage your linked ad accounts and
+                            data synchronization preferences.</p>
+                    </div>
+                    <!-- Grid of Cards -->
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-md">
+                        <!-- Google Ads Connection Card -->
+                        <div
+                            class="bg-surface-container rounded-xl border border-outline-variant p-md flex flex-col relative overflow-hidden">
+                            <div class="flex items-center justify-between mb-4">
+                                <div class="flex items-center gap-3">
+                                    <div class="w-10 h-10 rounded-full bg-white flex items-center justify-center p-2">
+                                        <svg class="w-full h-full" viewbox="0 0 24 24">
+                                            <path
+                                                d="M23.49 12.27c0-.79-.07-1.54-.19-2.27H12v4.51h6.47c-.29 1.48-1.14 2.73-2.4 3.58v3h3.86c2.26-2.09 3.56-5.17 3.56-8.82z"
+                                                fill="#4285F4"></path>
+                                            <path
+                                                d="M12 24c3.24 0 5.95-1.08 7.93-2.91l-3.86-3c-1.08.72-2.45 1.16-4.07 1.16-3.13 0-5.78-2.11-6.73-4.96H1.29v3.09C3.26 21.3 7.31 24 12 24z"
+                                                fill="#34A853"></path>
+                                            <path
+                                                d="M5.27 14.29c-.25-.72-.38-1.49-.38-2.29s.14-1.57.38-2.29V6.62H1.29C.47 8.24 0 10.06 0 12s.47 3.76 1.29 5.38l3.98-3.09z"
+                                                fill="#FBBC05"></path>
+                                            <path
+                                                d="M12 4.75c1.77 0 3.35.61 4.6 1.8l3.42-3.42C17.95 1.19 15.24 0 12 0 7.31 0 3.26 2.7 1.29 6.62l3.98 3.09c.95-2.85 3.6-4.96 6.73-4.96z"
+                                                fill="#EA4335"></path>
+                                        </svg>
+                                    </div>
+                                    <div>
+                                        <h4 class="font-body-lg text-[16px] font-semibold text-on-surface">Google Ads
+                                        </h4>
+                                        <p class="font-body-md text-[13px] text-on-surface-variant">ID: 948-291-5503</p>
+                                    </div>
+                                </div>
+                                <span
+                                    class="px-2 py-1 bg-[#3ECF8E]/10 border border-[#3ECF8E]/20 text-[#3ECF8E] font-label-caps text-label-caps rounded-full flex items-center gap-1">
+                                    <span class="w-1.5 h-1.5 rounded-full bg-[#3ECF8E]"></span> Active
+                                </span>
+                            </div>
+                            <div class="mt-auto pt-4 border-t border-outline-variant flex gap-3">
+                                <button
+                                    class="flex-1 border border-outline-variant hover:border-outline text-on-surface font-body-md text-sm px-4 py-2 rounded-full transition-colors flex justify-center items-center gap-2">
+                                    <span class="material-symbols-outlined text-[18px]">sync</span> Sync Now
+                                </button>
+                                <button
+                                    class="flex-1 bg-surface-bright border border-outline-variant hover:border-error hover:text-error text-on-surface font-body-md text-sm px-4 py-2 rounded-full transition-colors flex justify-center items-center">
+                                    Manage
+                                </button>
+                            </div>
+                        </div>
+                        <!-- Add Account Card (Dashed) -->
+                        <button
+                            class="bg-surface-container/50 border-2 border-dashed border-outline-variant hover:border-brand-green hover:bg-surface-container rounded-xl p-md flex flex-col items-center justify-center gap-3 transition-all min-h-[160px] group">
+                            <div
+                                class="w-10 h-10 rounded-full bg-surface-bright flex items-center justify-center group-hover:bg-brand-green/10 transition-colors">
+                                <span
+                                    class="material-symbols-outlined text-outline group-hover:text-brand-green transition-colors">add</span>
+                            </div>
+                            <span
+                                class="font-body-md text-body-md text-on-surface-variant group-hover:text-on-surface transition-colors font-medium">Add
+                                New Connection</span>
+                        </button>
+                    </div>
+                    <!-- Sync Frequency Settings -->
+                    <div class="bg-surface-container rounded-xl border border-outline-variant p-md flex flex-col gap-4">
+                        <div class="flex justify-between items-start">
+                            <div>
+                                <h4 class="font-body-lg text-[16px] font-semibold text-on-surface">Data Sync Frequency
+                                </h4>
+                                <p class="font-body-md text-sm text-on-surface-variant mt-1">How often AdPilot fetches
+                                    performance data.</p>
+                            </div>
+                            <span class="material-symbols-outlined text-outline-variant">update</span>
+                        </div>
+                        <div class="flex flex-wrap gap-3 mt-2">
+                            <label class="cursor-pointer">
+                                <input checked="" class="peer sr-only" name="sync_freq" type="radio" />
+                                <div
+                                    class="px-4 py-2 rounded-full border border-outline-variant text-on-surface-variant peer-checked:border-brand-green peer-checked:bg-brand-green/10 peer-checked:text-brand-green font-body-md text-sm transition-all">
+                                    Real-time
+                                </div>
+                            </label>
+                            <label class="cursor-pointer">
+                                <input class="peer sr-only" name="sync_freq" type="radio" />
+                                <div
+                                    class="px-4 py-2 rounded-full border border-outline-variant text-on-surface-variant peer-checked:border-brand-green peer-checked:bg-brand-green/10 peer-checked:text-brand-green font-body-md text-sm transition-all">
+                                    Every 15 mins
+                                </div>
+                            </label>
+                            <label class="cursor-pointer">
+                                <input class="peer sr-only" name="sync_freq" type="radio" />
+                                <div
+                                    class="px-4 py-2 rounded-full border border-outline-variant text-on-surface-variant peer-checked:border-brand-green peer-checked:bg-brand-green/10 peer-checked:text-brand-green font-body-md text-sm transition-all">
+                                    Hourly
+                                </div>
+                            </label>
+                        </div>
+                    </div>
+                    <!-- AI Preferences -->
+                    <div
+                        class="bg-surface-container rounded-xl border border-primary-fixed-dim/30 p-md flex flex-col gap-6 relative overflow-hidden">
+                        <!-- AI Indicator Glow -->
+                        <div
+                            class="absolute top-0 right-0 w-32 h-32 bg-primary-fixed-dim/10 blur-[50px] rounded-full pointer-events-none">
+                        </div>
+                        <div class="flex justify-between items-start z-10">
+                            <div>
+                                <h4
+                                    class="font-body-lg text-[16px] font-semibold text-on-surface flex items-center gap-2">
+                                    <span
+                                        class="material-symbols-outlined text-primary-fixed-dim text-[18px]">auto_awesome</span>
+                                    AI Optimization Engine
+                                </h4>
+                                <p class="font-body-md text-sm text-on-surface-variant mt-1">Configure how aggressively
+                                    AdPilot adjusts bids and budgets.</p>
+                            </div>
+                            <!-- Toggle -->
+                            <label class="relative inline-flex items-center cursor-pointer">
+                                <input checked="" class="sr-only peer" type="checkbox" value="" />
+                                <div
+                                    class="w-11 h-6 bg-surface-bright peer-focus:outline-none rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all peer-checked:bg-primary-fixed-dim">
+                                </div>
+                                <span class="ml-3 text-sm font-body-md text-on-surface font-medium">Auto-Apply</span>
+                            </label>
+                        </div>
+                        <div class="flex flex-col gap-3 z-10">
+                            <div class="flex justify-between font-label-caps text-label-caps text-on-surface-variant">
+                                <span>Conservative</span>
+                                <span>Aggressive</span>
+                            </div>
+                            <input
+                                class="w-full h-2 bg-surface-bright rounded-lg appearance-none cursor-pointer accent-primary-fixed-dim"
+                                max="100" min="1" type="range" value="75" />
+                            <p class="font-body-md text-[13px] text-primary-fixed-dim/80 mt-1">Current Setting: Favors
+                                higher ROAS targets over pure volume.</p>
+                        </div>
+                    </div>
+                    <!-- Billing & Limits -->
+                    <div
+                        class="bg-surface-container rounded-xl border border-outline-variant p-md flex flex-col gap-4 mt-4">
+                        <div class="flex justify-between items-start mb-2">
+                            <div>
+                                <h4 class="font-body-lg text-[16px] font-semibold text-on-surface">Usage &amp; Limits
+                                </h4>
+                                <p class="font-body-md text-sm text-on-surface-variant mt-1">Enterprise Plan</p>
+                            </div>
+                            <button
+                                class="text-sm font-body-md text-on-surface border border-outline-variant px-3 py-1.5 rounded-full hover:bg-surface-bright transition-colors">
+                                Upgrade Plan
+                            </button>
+                        </div>
+                        <div class="flex flex-col gap-2">
+                            <div class="flex justify-between font-body-md text-sm text-on-surface">
+                                <span>Managed Ad Spend</span>
+                                <span class="font-medium">$42,500 <span class="text-on-surface-variant">/
+                                        $50,000</span></span>
+                            </div>
+                            <div class="w-full bg-surface-bright rounded-full h-2.5">
+                                <div class="bg-brand-green h-2.5 rounded-full" style="width: 85%"></div>
+                            </div>
+                            <p class="font-body-md text-xs text-on-surface-variant mt-1">You are at 85% of your monthly
+                                limit. At current pacing, you will hit the cap in 4 days.</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </main>
+    </div>
+</body>
+
+</html>
