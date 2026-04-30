@@ -1,89 +1,114 @@
-# AdPilot AI
+# AdPilot AI 🚀
 
-AdPilot is an AI-powered SaaS platform designed to optimize Google Ads campaigns automatically. It features a robust dashboard for analytics, smart AI campaign auditing and recommendations, and an automation rule builder to maximize your Return on Ad Spend (ROAS).
+> AI-powered Google Ads optimization platform — automate campaigns, get smart recommendations, and maximize your ROAS.
+
+[![MIT License](https://img.shields.io/badge/License-MIT-blue.svg)](LICENSE)
+[![Node.js](https://img.shields.io/badge/Node.js-18%2B-339933?logo=node.js)](https://nodejs.org/)
+[![React](https://img.shields.io/badge/React-19-61DAFB?logo=react)](https://react.dev/)
+[![MongoDB](https://img.shields.io/badge/MongoDB-Atlas-47A248?logo=mongodb)](https://www.mongodb.com/)
 
 ## 🎨 Design & Prototyping
 
 - **Interactive Prototype:** [View on Figma](https://www.figma.com/proto/hKfPVdWxNLbYTqGjX4JV41/AdPilot?node-id=5-2&viewport=490%2C547%2C0.19&t=MqwqqRQe7U6gbKwK-1&scaling=min-zoom&content-scaling=fixed&starting-point-node-id=1%3A13&page-id=0%3A1)
 - **Figma Design Files:** [View on Figma](https://www.figma.com/design/hKfPVdWxNLbYTqGjX4JV41/AdPilot?node-id=0-1&p=f)
 
-## 🚀 Tech Stack
+## ✨ Features
 
-- **Frontend:** React.js, Vite, Tailwind CSS (v4), Redux Toolkit (RTK Query)
-- **Backend:** Node.js, Express.js
-- **Database:** MongoDB, Mongoose
-- **Authentication:** JWT (JSON Web Tokens)
-- **Integrations:** Google Ads API (OAuth 2.0)
+| Feature | Description |
+|---------|-------------|
+| **Dashboard** | Real-time KPI overview with spend, clicks, conversions & ROAS metrics |
+| **Campaign Manager** | Sync, pause, and manage Google Ads campaigns from one place |
+| **AI Optimizer** | AI-powered audits with actionable fix recommendations |
+| **Analytics** | Interactive charts and performance trend analysis |
+| **Automation Rules** | IF / THEN rule builder to auto-manage bids and budgets |
+| **Reports** | Generate and export weekly executive summary reports |
+| **Notifications** | Real-time alerts for budget overruns and performance changes |
+
+## 🛠 Tech Stack
+
+| Layer | Technology |
+|-------|-----------|
+| Frontend | React 19, Vite, Tailwind CSS v4, Redux Toolkit (RTK Query) |
+| Backend | Node.js, Express.js |
+| Database | MongoDB with Mongoose ODM |
+| Auth | JWT-based authentication |
+| Integrations | Google Ads API (OAuth 2.0) |
 
 ## 📁 Project Structure
 
-The repository is built as a monorepo split into standard `client` and `server` environments.
-
-```text
+```
 adpilot/
-├── client/                     # Frontend React Application
-│   ├── public/                 # Static assets
+├── client/                     # React frontend
 │   ├── src/
-│   │   ├── assets/             # Images, icons, global styles
-│   │   ├── components/         # Reusable UI components (Sidebar, TopBar, etc.)
-│   │   ├── layouts/            # Page layout wrappers (DashboardLayout)
-│   │   ├── pages/              # Main route views (Dashboard, Optimizer, Settings, etc.)
-│   │   ├── store/              # Redux logic
-│   │   │   ├── api/            # RTK Query API slices (usersApi, campaignApi, etc.)
-│   │   │   └── slices/         # Standard Redux slices (authSlice)
-│   │   ├── App.jsx             # React Router configuration
-│   │   └── index.css           # Global Tailwind CSS directives and design tokens
+│   │   ├── components/         # Sidebar, TopBar, ProtectedRoute
+│   │   ├── layouts/            # DashboardLayout wrapper
+│   │   ├── pages/              # All route-level page components
+│   │   └── store/              # Redux store, API slices, auth slice
 │   ├── index.html
-│   ├── postcss.config.js       # PostCSS configuration
-│   ├── tailwind.config.js      # Tailwind theme and utility configuration
-│   └── vite.config.js          # Vite build tool configuration
+│   └── vite.config.js
 │
-├── server/                     # Backend Node.js Environment
-│   ├── controllers/            # Business logic for route endpoints
-│   ├── middleware/             # Custom express middleware (auth, error handling)
-│   ├── models/                 # Mongoose database schemas
-│   ├── routes/                 # Express API route definitions
-│   ├── utils/                  # Helper functions and demo-data seeders
-│   ├── server.js               # Main Express application entry point
-│   ├── .env.example            # Environment variable template
-│   └── package.json    
+├── server/                     # Express backend
+│   └── src/
+│       ├── controllers/        # Route handler logic
+│       ├── models/             # Mongoose schemas
+│       ├── routes/             # API endpoint definitions
+│       ├── middlewares/        # JWT auth middleware
+│       ├── utils/              # Helpers & demo data seeder
+│       └── config/             # Database connection
 │
-├── AdPilot-AI-PRD.txt          # Product Requirements Document
-└── README.md                   # This file
+├── .gitignore
+├── CONTRIBUTING.md
+├── LICENSE
+└── README.md
 ```
 
-## 🛠 Getting Started
+## 🚀 Getting Started
 
 ### Prerequisites
-- Node.js (v18 or higher)
-- MongoDB server or URI
+
+- **Node.js** v18 or higher
+- **MongoDB** server or Atlas URI
 
 ### Installation
 
-1. **Clone the repository:**
-   ```bash
-   git clone https://github.com/atulXdev/adpilot.git
-   cd adpilot
-   ```
+```bash
+# Clone the repo
+git clone https://github.com/atulXdev/adpilot.git
+cd adpilot
 
-2. **Setup Server:**
-   ```bash
-   cd server
-   npm install
-   # Copy .env.example to .env and fill in your MongoDB URI and Auth secrets
-   cp .env.example .env
-   npm run dev
-   ```
+# Setup server
+cd server
+npm install
+cp .env.example .env    # Add your MongoDB URI & JWT secret
+npm run dev
 
-3. **Setup Client:**
-   ```bash
-   cd ../client
-   npm install
-   npm run dev
-   ```
+# Setup client (new terminal)
+cd ../client
+npm install
+npm run dev
+```
 
-4. **Access the Application:**
-   Open [http://localhost:5173](http://localhost:5173) in your browser.
+Open [http://localhost:5173](http://localhost:5173) in your browser.
+
+### Environment Variables
+
+Create `server/.env` from the example:
+
+```env
+PORT=5000
+MONGODB_URI=mongodb+srv://<user>:<password>@cluster0.mongodb.net/adpilot
+JWT_SECRET=your_jwt_secret_key
+NODE_ENV=development
+```
 
 ## 🤖 Demo Mode
-If you do not have authorized Google Ads OAuth credentials configured, the application will automatically enter **Demo Mode** on signup. This seeds your dashboard with realistic mock data allowing you to explore the AI optimization workflows immediately.
+
+No Google Ads credentials? No problem — the app enters **Demo Mode** on signup and seeds your account with realistic mock data so you can explore every feature immediately.
+
+## 🤝 Contributing
+
+Contributions are welcome! Please read our [Contributing Guide](CONTRIBUTING.md) before submitting a PR.
+
+## 📄 License
+
+This project is licensed under the [MIT License](LICENSE).
