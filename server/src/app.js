@@ -20,7 +20,20 @@ app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 app.use(cookieParser());
 app.use(cors({
-  origin: 'http://localhost:5173',
+  origin: function(origin, callback) {
+    if (!origin) return callback(null, true);
+    const allowedOrigins = [
+      'http://localhost:5173',
+      'http://localhost:3000',
+      process.env.FRONTEND_URL ? process.env.FRONTEND_URL.replace(/\/$/, '') : null
+    ].filter(Boolean);
+    
+    if (allowedOrigins.indexOf(origin) !== -1 || allowedOrigins.indexOf(origin.replace(/\/$/, '')) !== -1) {
+      callback(null, true);
+    } else {
+      callback(new Error('Not allowed by CORS'));
+    }
+  },
   credentials: true,
 }));
 
